@@ -1,0 +1,30 @@
+{% include "header.html" %}
+
+<title>Typ głosu &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>{{ stop_type.name }}</h1>
+<p>{{ stop_type.description }}</p>
+
+<h2>Próbki dźwiękowe</h2>
+
+{% for sample in stop_type.sample_set.all %}
+{% empty %}
+    <p>Brak próbek dźwiękowych tego głosu.</p>
+{% endfor %}
+
+<h2>Głosy tego typu w polskich organach</h2>
+
+<ul>
+{% for stop in stop_type.stop_set.all %}
+    <li>
+        {{ stop.name }}{% if stop.length %} {{ stop.length }}'{% endif %}, {{ stop.keyboard.name }},
+        <a href="{% url 'view-instrument' stop.keyboard.instrument.pk %}">{{ stop.keyboard.instrument.location.name }}, {{ stop.keyboard.instrument.location.city.name }}</a>
+    </li>
+{% empty %}
+    <p>Brak głosów tego typu w bazie.</p>
+{% endfor %}
+</ul>
+
+{% include "footer.html" %}

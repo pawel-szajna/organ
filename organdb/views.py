@@ -21,3 +21,8 @@ def stop_type(request, stop_type_id):
 def performer(request, performer_id):
     the_performer = get_object_or_404(Performer, pk=performer_id)
     return render(request, 'performer.html', {'performer': the_performer})
+
+
+def concert(request, concert_id):
+    the_concert = get_object_or_404(Concert, pk=concert_id)
+    return render(request, 'concert.html', {'concert': the_concert})

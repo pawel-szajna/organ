@@ -31,7 +31,7 @@
 <h2>Koncerty</h2>
 {% for performance in performer.performance_set.all %}
     {% if forloop.first %}<ul class="performances">{% endif %}
-    <li>{{ performance.concert.instrument.location.name }}, {{ performance.concert.date }}</li>
+    <li><a href="{% url 'view-concert' performance.concert.pk %}">{{ performance.concert.instrument.location.city.name }}, {{ performance.concert.instrument.location.name }}, {{ performance.concert.date }}</a></li>
     {% if forloop.last %}</ul>{% endif %}
 {% empty %}
     <p>Brak informacji o koncertach tego wykonawcy.</p>

@@ -1,0 +1,36 @@
+{% include "header.html" %}
+
+<title>{{ concert.instrument.location.city.name }}, {{ concert.instrument.location.name }}, {{ concert.date }} &ndash; Koncert &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>{{ concert.instrument.location.city.name }}, {{ concert.instrument.location.name }}, {{ concert.date }}</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <p>{{ concert.description }}</p>
+
+        <h2>Wykonawcy</h2>
+
+        {% for performance in concert.performance_set.all %}
+            {% if forloop.first %}<ul class="performers">{% endif %}
+            <li><a href="{% url 'view-performer' performance.performer.pk %}">{{ performance.performer.name }}</a></li>
+            {% if forloop.last %}</ul>{% endif %}
+        {% empty %}
+            <p>Brak informacji o wykonawcach podczas tego koncertu.</p>
+        {% endfor %}
+    </div>
+    <div class="col-md-4">
+        <h2>Instrument</h2>
+        <dl class="dl-horizontal">
+            <dt>Liczba głosów</dt>
+            <dd>5</dd>
+            <dt>Klawiatury</dt>
+            <dd>2+P</dd>
+            <dt>&nbsp;</dt>
+            <dd><a href="{% url 'view-instrument' concert.instrument.pk %}">Zobacz pełny opis</a></dd>
+        </dl>
+    </div>
+</div>
+
+{% include "footer.html" %}

@@ -148,6 +148,9 @@ class Concert(models.Model):
     description = models.TextField()
     instrument = models.ForeignKey(Instrument)
 
+    def __str__(self):
+        return 'Concert: {}, {}, {}'.format(self.instrument.location.city.name, self.instrument.location.name, self.date)
+
 
 class Photo(models.Model):
     file = models.ImageField()

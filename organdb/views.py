@@ -16,3 +16,8 @@ def instrument(request, instrument_id):
 def stop_type(request, stop_type_id):
     the_stop_type = get_object_or_404(StopType, pk=stop_type_id)
     return render(request, 'stop.html', {'stop_type': the_stop_type})
+
+
+def performer(request, performer_id):
+    the_performer = get_object_or_404(Performer, pk=performer_id)
+    return render(request, 'performer.html', {'performer': the_performer})

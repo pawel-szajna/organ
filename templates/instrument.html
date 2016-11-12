@@ -58,7 +58,11 @@
 
         {% for recording in instrument.recording_set.all %}
             {% if forloop.first %}<ul>{% endif %}
-            <li><a href="{{ MEDIA_URL }}{{ recording.file.url }}">{{ recording.description }}</a>, wyk. {{ recording.performer.name }}<br><audio src="{{ MEDIA_URL }}{{ recording.file.url }}" controls></audio></li>
+            <li>
+                <a href="{{ MEDIA_URL }}{{ recording.file.url }}">{{ recording.description }}</a>,
+                wyk. <a href="{% url 'view-performer' recording.performer.pk %}">{{ recording.performer.name }}</a><br>
+                <audio src="{{ MEDIA_URL }}{{ recording.file.url }}" controls></audio>
+            </li>
             {% if forloop.last %}</ul>{% endif %}
         {% empty %}
             <p>Brak nagrań tego instrumentu.</p>
@@ -67,9 +71,10 @@
     </div>
 
     <div class="col-md-4">
-        <h2>Fotografie</h2>
-        <p><img class="img-responsive" src="/static/0.jpg" alt="1"></p>
-        <p><img class="img-responsive" src="/static/0.jpg" alt="2"></p>
+        {% for photo in instrument.photo_set.all %}
+            {% if forloop.first %}<h2>Fotografie</h2>{% endif %}
+            <p><img class="img-responsive" src="{{ MEDIA_URL }}{{ photo.file.url }}" alt="{{ photo.description }}"></p>
+        {% endfor %}
 
         <h2>Lokalizacja</h2>
         <p>(google maps)</p>

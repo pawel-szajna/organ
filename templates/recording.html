@@ -1,0 +1,5 @@
+<li>
+    <a href="{{ MEDIA_URL }}{{ recording.file.url }}">{{ recording.description }}</a>,
+    wyk. <a href="{% url 'view-performer' recording.performer.pk %}">{{ recording.performer.name }}</a><br>
+    <audio src="{{ MEDIA_URL }}{{ recording.file.url }}" controls></audio>
+</li>

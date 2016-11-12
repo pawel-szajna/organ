@@ -57,12 +57,8 @@
         <h2>Nagrania</h2>
 
         {% for recording in instrument.recording_set.all %}
-            {% if forloop.first %}<ul>{% endif %}
-            <li>
-                <a href="{{ MEDIA_URL }}{{ recording.file.url }}">{{ recording.description }}</a>,
-                wyk. <a href="{% url 'view-performer' recording.performer.pk %}">{{ recording.performer.name }}</a><br>
-                <audio src="{{ MEDIA_URL }}{{ recording.file.url }}" controls></audio>
-            </li>
+            {% if forloop.first %}<ul class="recordings">{% endif %}
+                {% include "recording.html" %}
             {% if forloop.last %}</ul>{% endif %}
         {% empty %}
             <p>Brak nagrań tego instrumentu.</p>

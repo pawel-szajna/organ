@@ -144,6 +144,7 @@ class Recording(models.Model):
 
 class Concert(models.Model):
     name = models.CharField(max_length=30)
+    date = models.DateField()
     description = models.TextField()
     instrument = models.ForeignKey(Instrument)
 

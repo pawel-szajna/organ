@@ -1,0 +1,40 @@
+{% include "header.html" %}
+
+<title>{{ performer.name }} &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>{{ performer.name }}</h1>
+
+<dl class="dl-horizontal">
+    {% if performer.born %}
+    <dt>Data urodzenia</dt>
+    <dd>{{ performer.born }}</dd>
+    {% endif %}
+    {% if performer.died %}
+    <dt>Data śmierci</dt>
+    <dd>{{ performer.died }}</dd>
+    {% endif %}
+</dl>
+
+<p>{{ performer.biography }}</p>
+
+<h2>Nagrania</h2>
+{% for recording in performer.recording_set.all %}
+    {% if forloop.first %}<ul class="recordings">{% endif %}
+    {% include "recording.html" %}
+    {% if forloop.last %}</ul>{% endif %}
+{% empty %}
+    <p>Brak nagrań tego wykonawcy.</p>
+{% endfor %}
+
+<h2>Koncerty</h2>
+{% for performance in performer.performance_set.all %}
+    {% if forloop.first %}<ul class="performances">{% endif %}
+    <li>{{ performance.concert.instrument.location.name }}, {{ performance.concert.date }}</li>
+    {% if forloop.last %}</ul>{% endif %}
+{% empty %}
+    <p>Brak informacji o koncertach tego wykonawcy.</p>
+{% endfor %}
+
+{% include "footer.html" %}

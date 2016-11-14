@@ -2,24 +2,30 @@ from django.db import models
 
 
 class Region(models.Model):
-    class Meta:
-        ordering = ['name']
     name = models.CharField(max_length=30, unique=True)
     description = models.TextField()
+
+    class Meta:
+        verbose_name = "region"
+        verbose_name_plural = "regiony"
+        ordering = ['name']
 
     def __str__(self):
         return 'Region: {}'.format(self.name)
 
 
 class City(models.Model):
-    class Meta:
-        ordering = ['name']
     name = models.CharField(max_length=30)
     description = models.TextField()
     region = models.ForeignKey(Region)
 
+    class Meta:
+        verbose_name = "miejscowość"
+        verbose_name_plural = "miejscowości"
+        ordering = ['name']
+
     def __str__(self):
-        return 'City: {}'.format(self.name)
+        return 'Miejscowość: {}'.format(self.name)
 
 
 class Location(models.Model):
@@ -29,8 +35,12 @@ class Location(models.Model):
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
 
+    class Meta:
+        verbose_name = "lokacja"
+        verbose_name_plural = "lokacje"
+
     def __str__(self):
-        return 'Location: {}, {}'.format(self.name, self.city.name)
+        return 'Lokacja: {}, {}'.format(self.name, self.city.name)
 
 
 class Builder(models.Model):
@@ -39,12 +49,17 @@ class Builder(models.Model):
     born = models.DateField(blank=True, null=True)
     died = models.DateField(blank=True, null=True)
 
+    class Meta:
+        verbose_name = "organmistrz"
+        verbose_name_plural = "organmistrzowie"
+
     def __str__(self):
-        return 'Builder: {}'.format(self.name)
+        return 'Organmistrz: {}'.format(self.name)
 
 
 class Instrument(models.Model):
     build_date = models.DateField()
+    comment = models.TextField(blank=True, null=True)
     key_action = models.CharField(max_length=20)
     stop_action = models.CharField(max_length=20)
     stops = models.IntegerField()
@@ -56,13 +71,15 @@ class Instrument(models.Model):
     location = models.ForeignKey(Location)
     published = models.BooleanField()
 
+    class Meta:
+        verbose_name = "instrument"
+        verbose_name_plural = "instrumenty"
+
     def __str__(self):
-        return 'Instrument: {}'.format(self.location)
+        return 'Instrument: {}, {} ({})'.format(self.location.city.name, self.location.name, self.comment)
 
 
 class Keyboard(models.Model):
-    class Meta:
-        ordering = ['order']
     name = models.CharField(max_length=30)
     pedalboard = models.BooleanField()
     min_note = models.CharField(max_length=2)
@@ -70,36 +87,52 @@ class Keyboard(models.Model):
     instrument = models.ForeignKey(Instrument)
     order = models.IntegerField()
 
+    class Meta:
+        verbose_name = "klawiatura"
+        verbose_name_plural = "klawiatury"
+        ordering = ['order']
+
     def __str__(self):
-        return 'Keyboard: {} ({}, {})'.format(self.name, self.instrument.location.name,
-                                              self.instrument.location.city.name)
+        return 'Klawiatura: {} ({}, {})'.format(self.name, self.instrument.location.name,
+                                                self.instrument.location.city.name)
 
 
 class StopType(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField()
 
+    class Meta:
+        verbose_name = "typ głosu"
+        verbose_name_plural = "typy głosów"
+
     def __str__(self):
-        return 'Stop type: {}'.format(self.name)
+        return 'Typ głosu: {}'.format(self.name)
 
 
 class StopFamily(models.Model):
     name = models.CharField(max_length=30)
     description = models.TextField()
 
+    class Meta:
+        verbose_name = "rodzina głosów"
+        verbose_name_plural = "rodziny głosów"
+
     def __str__(self):
-        return 'Stop family: {}'.format(self.name)
+        return 'Rodzina głosów: {}'.format(self.name)
 
 
 class Stop(models.Model):
-    class Meta:
-        ordering = ['number']
     number = models.IntegerField()
     name = models.CharField(max_length=30)
     length = models.CharField(max_length=5, blank=True, null=True)
     reed = models.BooleanField()
     keyboard = models.ForeignKey(Keyboard)
     type = models.ForeignKey(StopType)
+
+    class Meta:
+        verbose_name = "głos"
+        verbose_name_plural = "głosy"
+        ordering = ['number']
 
     def __str__(self):
         return '{}, {} - {} - {}. {} {}\''.format(self.keyboard.instrument.location.name,
@@ -112,8 +145,12 @@ class Sample(models.Model):
     description = models.TextField()
     stop_type = models.ForeignKey(StopType)
 
+    class Meta:
+        verbose_name = "próbka"
+        verbose_name_plural = "próbki"
+
     def __str__(self):
-        return 'Sample #{} ({})'.format(self.id, self.stop_type.name)
+        return 'Próbka #{} ({})'.format(self.id, self.stop_type.name)
 
 
 class Work(models.Model):
@@ -123,9 +160,13 @@ class Work(models.Model):
     instrument = models.ForeignKey(Instrument)
     builder = models.ForeignKey(Builder)
 
+    class Meta:
+        verbose_name = "praca"
+        verbose_name_plural = "prace"
+
     def __str__(self):
-        return 'Work by {} on {}, {} ({})'.format(self.builder.name, self.instrument.location.name,
-                                                  self.instrument.location.city.name, self.year)
+        return 'Praca organmistrza {} przy {}, {} ({})'.format(self.builder.name, self.instrument.location.name,
+                                                               self.instrument.location.city.name, self.year)
 
 
 class Performer(models.Model):
@@ -135,8 +176,12 @@ class Performer(models.Model):
     biography = models.TextField()
     photo = models.ImageField(blank=True, null=True)
 
+    class Meta:
+        verbose_name = "wykonawca"
+        verbose_name_plural = "wykonawcy"
+
     def __str__(self):
-        return 'Performer: {}'.format(self.name)
+        return 'Wykonawca: {}'.format(self.name)
 
 
 class Recording(models.Model):
@@ -145,8 +190,12 @@ class Recording(models.Model):
     performer = models.ForeignKey(Performer)
     instrument = models.ForeignKey(Instrument)
 
+    class Meta:
+        verbose_name = "nagranie"
+        verbose_name_plural = "nagrania"
+
     def __str__(self):
-        return 'Recording of {} by {}'.format(self.description, self.performer.name)
+        return 'Nagranie: {}, wyk. {}'.format(self.description, self.performer.name)
 
 
 class Concert(models.Model):
@@ -155,8 +204,12 @@ class Concert(models.Model):
     description = models.TextField()
     instrument = models.ForeignKey(Instrument)
 
+    class Meta:
+        verbose_name = "koncert"
+        verbose_name_plural = "koncerty"
+
     def __str__(self):
-        return 'Concert: {}, {}, {}'.format(self.instrument.location.city.name, self.instrument.location.name, self.date)
+        return 'Koncert: {}, {}, {}'.format(self.instrument.location.city.name, self.instrument.location.name, self.date)
 
 
 class Photo(models.Model):
@@ -164,21 +217,33 @@ class Photo(models.Model):
     description = models.TextField()
     instrument = models.ForeignKey(Instrument)
 
+    class Meta:
+        verbose_name = "zdjęcie"
+        verbose_name_plural = "zdjęcia"
+
     def __str__(self):
-        return 'Photo: {}, {}, {}'.format(self.instrument.location.city.name, self.instrument.location.name, self.description)
+        return 'Zdjęcie: {}, {}, {}'.format(self.instrument.location.city.name, self.instrument.location.name, self.description)
 
 
 class Performance(models.Model):
     concert = models.ForeignKey(Concert)
     performer = models.ForeignKey(Performer)
 
+    class Meta:
+        verbose_name = "występ"
+        verbose_name_plural = "występy"
+
     def __str__(self):
-        return 'Performance of {} at {}'.format(self.performer.name, self.concert)
+        return 'Występ {} w {}'.format(self.performer.name, self.concert)
 
 
 class StopMembership(models.Model):
     type = models.ForeignKey(StopType)
     family = models.ForeignKey(StopFamily)
 
+    class Meta:
+        verbose_name = "przynależność głosu"
+        verbose_name_plural = "przynależności głosów"
+
     def __str__(self):
-        return 'Stop membership of {} in the {} family'.format(self.type.name, self.family.name)
+        return 'Przynależność głosu {} do rodziny {}'.format(self.type.name, self.family.name)

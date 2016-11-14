@@ -67,7 +67,7 @@ class Instrument(models.Model):
     pedalboard = models.BooleanField()
     description = models.TextField()
     additional_features = models.TextField()
-    builder = models.ForeignKey(Builder)
+    builder = models.ForeignKey(Builder, blank=True, null=True)
     location = models.ForeignKey(Location)
     published = models.BooleanField()
 

@@ -30,6 +30,11 @@
 
             <dt>Traktura rejestrów</dt>
             <dd>{{ instrument.stop_action }}</dd>
+
+            {% if instrument.builder %}
+            <dt>Budowniczy</dt>
+            <dd><a href="{% url 'view-builder' instrument.builder.pk %}">{{ instrument.builder.name }}</a></dd>
+            {% endif %}
         </dl>
 
         <p>{{ instrument.description }}</p>
@@ -64,6 +69,14 @@
             <p>Brak nagrań tego instrumentu.</p>
         {% endfor %}
 
+        <h2>Prace przy instrumencie</h2>
+        {% for work in instrument.work_set.all %}
+            {% if forloop.first %}<ul class="works">{% endif %}
+                <li>{{ work.type }}</li>
+            {% if forloop.last %}</ul>{% endif %}
+        {% empty %}
+            <p>Brak informacji o pracach prowadzonych przy instrumencie.</p>
+        {% endfor %}
 {#        TODO: nadchodzące koncerty #}
 
     </div>

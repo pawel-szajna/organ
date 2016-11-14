@@ -36,3 +36,13 @@ def region(request, region_id):
 def browse(request):
     regions = get_list_or_404(Region)
     return render(request, 'browse.html', {'regions': regions})
+
+
+def work(request, work_id):
+    the_work = get_object_or_404(Work, pk=work_id)
+    return render(request, 'work.html', {'work': the_work})
+
+
+def builder(request, builder_id):
+    the_builder = get_object_or_404(Builder, pk=builder_id)
+    return render(request, 'builder.html', {'builder': the_builder})

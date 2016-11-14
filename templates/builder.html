@@ -1,0 +1,42 @@
+{% include "header.html" %}
+
+<title>{{ builder.name }} &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>{{ builder.name }}</h1>
+
+<dl class="dl-horizontal">
+    {% if builder.born %}
+    <dt>Data urodzenia</dt>
+    <dd>{{ builder.born }}</dd>
+    {% endif %}
+    {% if builder.died %}
+    <dt>Data śmierci</dt>
+    <dd>{{ builder.died }}</dd>
+    {% endif %}
+</dl>
+
+<p>{{ builder.biography }}</p>
+
+<h2>Instrumenty wybudowane przez organmistrza</h2>
+
+<ul class="instruments">
+{% for instrument in builder.instrument_set.all %}
+    <li><a href="{% url 'view-instrument' instrument.pk %}">{{ instrument.location.city.name }}, {{ instrument.location.name }}</a></li>
+{% empty %}
+    <p>Brak danych o instrumentach wybudowanych przez tego organmistrza.</p>
+{% endfor %}
+</ul>
+
+<h2>Prace prowadzone przez organmistrza</h2>
+
+<ul class="works">
+{% for work in builder.work_set.all %}
+    <li><a href=""></a></li>
+{% empty %}
+    <p>Brak danych o pracach prowadzonych przez tego organmistrza.</p>
+{% endfor %}
+</ul>
+
+{% include "footer.html" %}

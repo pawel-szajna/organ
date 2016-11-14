@@ -2,8 +2,8 @@ from django.db import models
 
 
 class Region(models.Model):
-    name = models.CharField(max_length=30, unique=True)
-    description = models.TextField()
+    name = models.CharField(max_length=30, unique=True, verbose_name='nazwa')
+    description = models.TextField(verbose_name='opis')
 
     class Meta:
         verbose_name = "region"
@@ -15,9 +15,9 @@ class Region(models.Model):
 
 
 class City(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.TextField()
-    region = models.ForeignKey(Region)
+    name = models.CharField(max_length=30, verbose_name='nazwa')
+    description = models.TextField(verbose_name='opis')
+    region = models.ForeignKey(Region, verbose_name='region')
 
     class Meta:
         verbose_name = "miejscowość"
@@ -29,11 +29,11 @@ class City(models.Model):
 
 
 class Location(models.Model):
-    name = models.CharField(max_length=50)
-    address = models.CharField(max_length=100)
-    city = models.ForeignKey(City)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    name = models.CharField(max_length=50, verbose_name='nazwa')
+    address = models.CharField(max_length=100, verbose_name='adres')
+    city = models.ForeignKey(City, verbose_name='miejscowość')
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name='szerokość geograficzna')
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name='długość geograficzna')
 
     class Meta:
         verbose_name = "lokacja"
@@ -44,10 +44,10 @@ class Location(models.Model):
 
 
 class Builder(models.Model):
-    name = models.CharField(max_length=40)
-    biography = models.TextField()
-    born = models.DateField(blank=True, null=True)
-    died = models.DateField(blank=True, null=True)
+    name = models.CharField(max_length=40, verbose_name='imię i nazwisko')
+    biography = models.TextField(verbose_name='biografia')
+    born = models.DateField(blank=True, null=True, verbose_name='data urodzenia')
+    died = models.DateField(blank=True, null=True, verbose_name='data śmierci')
 
     class Meta:
         verbose_name = "organmistrz"
@@ -58,18 +58,18 @@ class Builder(models.Model):
 
 
 class Instrument(models.Model):
-    build_date = models.DateField()
-    comment = models.TextField(blank=True, null=True)
-    key_action = models.CharField(max_length=20)
-    stop_action = models.CharField(max_length=20)
-    stops = models.IntegerField()
-    keyboards = models.IntegerField()
-    pedalboard = models.BooleanField()
-    description = models.TextField()
-    additional_features = models.TextField()
-    builder = models.ForeignKey(Builder, blank=True, null=True)
-    location = models.ForeignKey(Location)
-    published = models.BooleanField()
+    build_date = models.DateField(verbose_name='data budowy')
+    comment = models.TextField(blank=True, null=True, verbose_name='komentarz')
+    key_action = models.CharField(max_length=20, verbose_name='traktura gry')
+    stop_action = models.CharField(max_length=20, verbose_name='traktura rejestrów')
+    stops = models.IntegerField(verbose_name='liczba głosów')
+    keyboards = models.IntegerField(verbose_name='liczba klawiatur')
+    pedalboard = models.BooleanField(verbose_name='pedał')
+    description = models.TextField(verbose_name='opis')
+    additional_features = models.TextField(verbose_name='dodatkowe urządzenia')
+    builder = models.ForeignKey(Builder, blank=True, null=True, verbose_name='budowniczy')
+    location = models.ForeignKey(Location, verbose_name='lokacja')
+    published = models.BooleanField(verbose_name='opublikowane')
 
     class Meta:
         verbose_name = "instrument"
@@ -80,12 +80,12 @@ class Instrument(models.Model):
 
 
 class Keyboard(models.Model):
-    name = models.CharField(max_length=30)
-    pedalboard = models.BooleanField()
-    min_note = models.CharField(max_length=2)
-    max_note = models.CharField(max_length=2)
-    instrument = models.ForeignKey(Instrument)
-    order = models.IntegerField()
+    name = models.CharField(max_length=30, verbose_name='nazwa')
+    pedalboard = models.BooleanField(verbose_name='pedał')
+    min_note = models.CharField(max_length=2, blank=True, null=True, verbose_name='najniższy dźwięk')
+    max_note = models.CharField(max_length=2, blank=True, null=True, verbose_name='najwyższy dźwięk')
+    instrument = models.ForeignKey(Instrument, verbose_name='instrument')
+    order = models.IntegerField(verbose_name='kolejność sortowania')
 
     class Meta:
         verbose_name = "klawiatura"
@@ -97,21 +97,9 @@ class Keyboard(models.Model):
                                                 self.instrument.location.city.name)
 
 
-class StopType(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.TextField()
-
-    class Meta:
-        verbose_name = "typ głosu"
-        verbose_name_plural = "typy głosów"
-
-    def __str__(self):
-        return 'Typ głosu: {}'.format(self.name)
-
-
 class StopFamily(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.TextField()
+    name = models.CharField(max_length=30, verbose_name='nazwa')
+    description = models.TextField(verbose_name='opis')
 
     class Meta:
         verbose_name = "rodzina głosów"
@@ -121,13 +109,26 @@ class StopFamily(models.Model):
         return 'Rodzina głosów: {}'.format(self.name)
 
 
+class StopType(models.Model):
+    name = models.CharField(max_length=30, verbose_name='nazwa')
+    description = models.TextField(verbose_name='opis')
+    families = models.ManyToManyField(StopFamily, blank=True, verbose_name='rodziny głosu')
+
+    class Meta:
+        verbose_name = "typ głosu"
+        verbose_name_plural = "typy głosów"
+
+    def __str__(self):
+        return 'Typ głosu: {}'.format(self.name)
+
+
 class Stop(models.Model):
-    number = models.IntegerField()
-    name = models.CharField(max_length=30)
-    length = models.CharField(max_length=5, blank=True, null=True)
-    reed = models.BooleanField()
-    keyboard = models.ForeignKey(Keyboard)
-    type = models.ForeignKey(StopType)
+    number = models.IntegerField(verbose_name='numer')
+    name = models.CharField(max_length=30, verbose_name='nazwa')
+    length = models.CharField(max_length=5, blank=True, null=True, verbose_name='długość piszczałki')
+    reed = models.BooleanField(verbose_name='głos językowy')
+    keyboard = models.ForeignKey(Keyboard, verbose_name='klawiatura')
+    type = models.ForeignKey(StopType, verbose_name='typ głosu')
 
     class Meta:
         verbose_name = "głos"
@@ -141,9 +142,9 @@ class Stop(models.Model):
 
 
 class Sample(models.Model):
-    file = models.FileField(upload_to='samples/')
-    description = models.TextField()
-    stop_type = models.ForeignKey(StopType)
+    file = models.FileField(upload_to='samples/', verbose_name='plik')
+    description = models.TextField(verbose_name='opis')
+    stop_type = models.ForeignKey(StopType, verbose_name='typ głosu')
 
     class Meta:
         verbose_name = "próbka"
@@ -154,11 +155,11 @@ class Sample(models.Model):
 
 
 class Work(models.Model):
-    type = models.CharField(max_length=60)
-    year = models.IntegerField()
-    description = models.TextField()
-    instrument = models.ForeignKey(Instrument)
-    builder = models.ForeignKey(Builder)
+    type = models.CharField(max_length=60, verbose_name='rodzaj prac')
+    year = models.IntegerField(verbose_name='rok')
+    description = models.TextField(verbose_name='opis')
+    instrument = models.ForeignKey(Instrument, verbose_name='instrument')
+    builder = models.ForeignKey(Builder, verbose_name='organmistrz')
 
     class Meta:
         verbose_name = "praca"
@@ -170,11 +171,11 @@ class Work(models.Model):
 
 
 class Performer(models.Model):
-    name = models.CharField(max_length=40)
-    born = models.DateField()
-    died = models.DateField(blank=True, null=True)
-    biography = models.TextField()
-    photo = models.ImageField(blank=True, null=True)
+    name = models.CharField(max_length=40, verbose_name='imię i nazwisko')
+    born = models.DateField(blank=True, null=True, verbose_name='data urodzenia')
+    died = models.DateField(blank=True, null=True, verbose_name='data śmierci')
+    biography = models.TextField(verbose_name='biografia')
+    photo = models.ImageField(blank=True, null=True, verbose_name='zdjęcie')
 
     class Meta:
         verbose_name = "wykonawca"
@@ -185,10 +186,10 @@ class Performer(models.Model):
 
 
 class Recording(models.Model):
-    file = models.FileField(upload_to='recordings/')
-    description = models.TextField()
-    performer = models.ForeignKey(Performer)
-    instrument = models.ForeignKey(Instrument)
+    file = models.FileField(upload_to='recordings/', verbose_name='plik')
+    description = models.TextField(verbose_name='opis')
+    performer = models.ForeignKey(Performer, verbose_name='wykonawca')
+    instrument = models.ForeignKey(Instrument, verbose_name='instrument')
 
     class Meta:
         verbose_name = "nagranie"
@@ -199,10 +200,11 @@ class Recording(models.Model):
 
 
 class Concert(models.Model):
-    name = models.CharField(max_length=30)
-    date = models.DateField()
-    description = models.TextField()
-    instrument = models.ForeignKey(Instrument)
+    name = models.CharField(max_length=30, verbose_name='nazwa')
+    date = models.DateField(verbose_name='data')
+    description = models.TextField(verbose_name='opis')
+    instrument = models.ForeignKey(Instrument, verbose_name='instrument')
+    performers = models.ManyToManyField(Performer, verbose_name='wykonawcy')
 
     class Meta:
         verbose_name = "koncert"
@@ -213,9 +215,9 @@ class Concert(models.Model):
 
 
 class Photo(models.Model):
-    file = models.ImageField()
-    description = models.TextField()
-    instrument = models.ForeignKey(Instrument)
+    file = models.ImageField(verbose_name='plik')
+    description = models.TextField(verbose_name='opis')
+    instrument = models.ForeignKey(Instrument, verbose_name='instrument')
 
     class Meta:
         verbose_name = "zdjęcie"
@@ -223,27 +225,3 @@ class Photo(models.Model):
 
     def __str__(self):
         return 'Zdjęcie: {}, {}, {}'.format(self.instrument.location.city.name, self.instrument.location.name, self.description)
-
-
-class Performance(models.Model):
-    concert = models.ForeignKey(Concert)
-    performer = models.ForeignKey(Performer)
-
-    class Meta:
-        verbose_name = "występ"
-        verbose_name_plural = "występy"
-
-    def __str__(self):
-        return 'Występ {} w {}'.format(self.performer.name, self.concert)
-
-
-class StopMembership(models.Model):
-    type = models.ForeignKey(StopType)
-    family = models.ForeignKey(StopFamily)
-
-    class Meta:
-        verbose_name = "przynależność głosu"
-        verbose_name_plural = "przynależności głosów"
-
-    def __str__(self):
-        return 'Przynależność głosu {} do rodziny {}'.format(self.type.name, self.family.name)

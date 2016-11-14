@@ -12,9 +12,9 @@
 
         <h2>Wykonawcy</h2>
 
-        {% for performance in concert.performance_set.all %}
+        {% for performer in concert.performers.all %}
             {% if forloop.first %}<ul class="performers">{% endif %}
-            <li><a href="{% url 'view-performer' performance.performer.pk %}">{{ performance.performer.name }}</a></li>
+            <li><a href="{% url 'view-performer' performer.pk %}">{{ performer.name }}</a></li>
             {% if forloop.last %}</ul>{% endif %}
         {% empty %}
             <p>Brak informacji o wykonawcach podczas tego koncertu.</p>

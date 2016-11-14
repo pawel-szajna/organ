@@ -141,6 +141,9 @@ class Recording(models.Model):
     performer = models.ForeignKey(Performer)
     instrument = models.ForeignKey(Instrument)
 
+    def __str__(self):
+        return 'Recording of {} by {}'.format(self.description, self.performer.name)
+
 
 class Concert(models.Model):
     name = models.CharField(max_length=30)
@@ -165,7 +168,13 @@ class Performance(models.Model):
     concert = models.ForeignKey(Concert)
     performer = models.ForeignKey(Performer)
 
+    def __str__(self):
+        return 'Performance of {} at {}'.format(self.performer.name, self.concert)
+
 
 class StopMembership(models.Model):
     type = models.ForeignKey(StopType)
     family = models.ForeignKey(StopFamily)
+
+    def __str__(self):
+        return 'Stop membership of {} in the {} family'.format(self.type.name, self.family.name)

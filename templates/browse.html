@@ -1,0 +1,15 @@
+{% include "header.html" %}
+
+<title>Baza instrumentów &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>Baza instrumentów</h1>
+
+<ul class="regions">
+{% for region in regions %}
+    <li><a href="{% url 'view-region' region.pk %}">Województwo {{ region.name }}</a></li>
+{% endfor %}
+</ul>
+
+{% include "footer.html" %}

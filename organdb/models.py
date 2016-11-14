@@ -2,6 +2,8 @@ from django.db import models
 
 
 class Region(models.Model):
+    class Meta:
+        ordering = ['name']
     name = models.CharField(max_length=30, unique=True)
     description = models.TextField()
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 
 from .models import *
@@ -31,3 +31,8 @@ def concert(request, concert_id):
 def region(request, region_id):
     the_region = get_object_or_404(Region, pk=region_id)
     return render(request, 'region.html', {'region': the_region})
+
+
+def browse(request):
+    regions = get_list_or_404(Region)
+    return render(request, 'browse.html', {'regions': regions})

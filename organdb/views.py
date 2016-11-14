@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
+import datetime
 
 from .models import *
 
@@ -10,7 +11,8 @@ def index(request):
 
 def instrument(request, instrument_id):
     the_instrument = get_object_or_404(Instrument, pk=instrument_id)
-    return render(request, 'instrument.html', {'instrument': the_instrument})
+    concerts = list(Concert.objects.filter(instrument=instrument_id, date__gte=datetime.datetime.now()))
+    return render(request, 'instrument.html', {'instrument': the_instrument, 'concerts': concerts})
 
 
 def stop_type(request, stop_type_id):

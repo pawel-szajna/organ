@@ -77,7 +77,15 @@
         {% empty %}
             <p>Brak informacji o pracach prowadzonych przy instrumencie.</p>
         {% endfor %}
-{#        TODO: nadchodzące koncerty #}
+
+        <h2>Nadchodzące koncerty</h2>
+        {% for concert in concerts %}
+            {% if forloop.first %}<ul class="concerts">{% endif %}
+                <li><a href="{% url 'view-concert' concert.pk %}">{{ concert.name }}</a>, {{ concert.date }}</li>
+            {% if forloop.last %}</ul>{% endif %}
+        {% empty %}
+            <p>Brak informacji na temat koncertów na tym instrumencie.</p>
+        {% endfor %}
 
     </div>
 

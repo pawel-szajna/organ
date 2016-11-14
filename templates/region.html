@@ -1,0 +1,24 @@
+{% include "header.html" %}
+
+<title>Województwo {{ region.name }} &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>Województwo {{ region.name }}</h1>
+
+{% for city in region.city_set.all %}
+    <h2>{{ city.name }}</h2>
+    <ul class="instruments">
+    {% for location in city.location_set.all %}
+        {% for instrument in location.instrument_set.all %}
+        <li><a href="{% url 'view-instrument' instrument.pk %}">{{ location.name }}</a>, {{ instrument.stops }} gł., {{ instrument.keyboards }}{% if instrument.pedalboard %}+P{% endif %}</li>
+        {% endfor %}
+    {% empty %}
+        <p>Brak danych o instrumentach w tej miejscowości.</p>
+    {% endfor %}
+    </ul>
+{% empty %}
+    <p>Brak danych o instrumentach w tym województwie.</p>
+{% endfor %}
+
+{% include "footer.html" %}

@@ -26,3 +26,8 @@ def performer(request, performer_id):
 def concert(request, concert_id):
     the_concert = get_object_or_404(Concert, pk=concert_id)
     return render(request, 'concert.html', {'concert': the_concert})
+
+
+def region(request, region_id):
+    the_region = get_object_or_404(Region, pk=region_id)
+    return render(request, 'region.html', {'region': the_region})

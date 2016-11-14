@@ -10,6 +10,8 @@ class Region(models.Model):
 
 
 class City(models.Model):
+    class Meta:
+        ordering = ['name']
     name = models.CharField(max_length=30)
     description = models.TextField()
     region = models.ForeignKey(Region)

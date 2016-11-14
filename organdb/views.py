@@ -48,3 +48,12 @@ def work(request, work_id):
 def builder(request, builder_id):
     the_builder = get_object_or_404(Builder, pk=builder_id)
     return render(request, 'builder.html', {'builder': the_builder})
+
+
+def concerts(request):
+    return render(request, 'concerts.html', {})
+
+
+def family(request, family_id):
+    the_family = get_object_or_404(StopFamily, pk=family_id)
+    return render(request, 'family.html', {'family': the_family})

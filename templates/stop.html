@@ -5,6 +5,13 @@
 {% include "navigation.html" %}
 
 <h1>{{ stop_type.name }}</h1>
+
+{% for family in stop_type.families.all %}
+{% if forloop.first %}<p class="lead">Rodziny głosu:{% endif %}
+<a class="label label-primary" href="{% url 'view-family' family.pk %}">{{ family.name }}</a>
+{% if forloop.last %}</p>{% endif %}
+{% endfor %}
+
 <p>{{ stop_type.description }}</p>
 
 <h2>Próbki dźwiękowe</h2>

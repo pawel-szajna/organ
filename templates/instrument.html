@@ -52,7 +52,7 @@
             <h4>{{ keyboard.name }}</h4>
             <p>
                 {% for stop in keyboard.stop_set.all %}
-                    {{ stop.number }}. <a class="stop{% if stop.reed %} reed{% endif %}" href="{% url 'view-stop-type' stop.type.pk %}">{{ stop.name }}</a> {% if stop.length %}{{ stop.length }}'{% endif %}<br>
+                    {% if keyboard.numbered %}{{ stop.number }}. {% endif %}<a class="stop{% if stop.reed %} reed{% endif %}" href="{% url 'view-stop-type' stop.type.pk %}">{{ stop.name }}</a> {% if stop.length %}{{ stop.length }}'{% endif %}<br>
                 {% empty %}
                     Brak głosów.
                 {% endfor %}

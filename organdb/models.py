@@ -84,6 +84,7 @@ class Instrument(models.Model):
 class Keyboard(models.Model):
     name = models.CharField(max_length=30, verbose_name='nazwa')
     pedalboard = models.BooleanField(verbose_name='pedał')
+    numbered = models.BooleanField(verbose_name='głosy numerowane')
     min_note = models.CharField(max_length=2, blank=True, null=True, verbose_name='najniższy dźwięk')
     max_note = models.CharField(max_length=2, blank=True, null=True, verbose_name='najwyższy dźwięk')
     instrument = models.ForeignKey(Instrument, verbose_name='instrument')

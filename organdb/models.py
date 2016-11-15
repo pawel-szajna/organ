@@ -3,7 +3,7 @@ from django.db import models
 
 class Region(models.Model):
     name = models.CharField(max_length=30, unique=True, verbose_name='nazwa')
-    description = models.TextField(verbose_name='opis')
+    description = models.TextField(blank=True, null=True, verbose_name='opis')
 
     class Meta:
         verbose_name = "region"
@@ -16,7 +16,7 @@ class Region(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=30, verbose_name='nazwa')
-    description = models.TextField(verbose_name='opis')
+    description = models.TextField(blank=True, null=True, verbose_name='opis')
     region = models.ForeignKey(Region, verbose_name='region')
 
     class Meta:
@@ -38,6 +38,7 @@ class Location(models.Model):
     class Meta:
         verbose_name = "lokacja"
         verbose_name_plural = "lokacje"
+        ordering = ['name']
 
     def __str__(self):
         return 'Lokacja: {}, {}'.format(self.name, self.city.name)
@@ -58,15 +59,15 @@ class Builder(models.Model):
 
 
 class Instrument(models.Model):
-    build_date = models.DateField(verbose_name='data budowy')
-    comment = models.TextField(blank=True, null=True, verbose_name='komentarz')
+    build_date = models.DateField(blank=True, null=True, verbose_name='data budowy')
+    comment = models.CharField(max_length=80, blank=True, null=True, verbose_name='komentarz')
     key_action = models.CharField(max_length=20, verbose_name='traktura gry')
     stop_action = models.CharField(max_length=20, verbose_name='traktura rejestrów')
     stops = models.IntegerField(verbose_name='liczba głosów')
     keyboards = models.IntegerField(verbose_name='liczba klawiatur')
     pedalboard = models.BooleanField(verbose_name='pedał')
     description = models.TextField(verbose_name='opis')
-    additional_features = models.TextField(verbose_name='dodatkowe urządzenia')
+    additional_features = models.TextField(blank=True, null=True, verbose_name='dodatkowe urządzenia')
     builder = models.ForeignKey(Builder, blank=True, null=True, verbose_name='budowniczy')
     location = models.ForeignKey(Location, verbose_name='lokacja')
     published = models.BooleanField(verbose_name='opublikowane')
@@ -74,6 +75,7 @@ class Instrument(models.Model):
     class Meta:
         verbose_name = "instrument"
         verbose_name_plural = "instrumenty"
+        ordering = ['location', '-stops']
 
     def __str__(self):
         return 'Instrument: {}, {} ({})'.format(self.location.city.name, self.location.name, self.comment)
@@ -90,7 +92,7 @@ class Keyboard(models.Model):
     class Meta:
         verbose_name = "klawiatura"
         verbose_name_plural = "klawiatury"
-        ordering = ['order']
+        ordering = ['instrument', 'order']
 
     def __str__(self):
         return 'Klawiatura: {} ({}, {})'.format(self.name, self.instrument.location.name,
@@ -135,7 +137,7 @@ class Stop(models.Model):
     class Meta:
         verbose_name = "głos"
         verbose_name_plural = "głosy"
-        ordering = ['number']
+        ordering = ['keyboard', 'number']
 
     def __str__(self):
         return '{}, {} - {} - {}. {} {}\''.format(self.keyboard.instrument.location.name,

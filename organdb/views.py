@@ -61,3 +61,9 @@ def family(request, family_id):
 
 def search(request):
     return render(request, 'search.html', {})
+
+
+def stops(request):
+    the_stops = get_list_or_404(StopType)
+    the_families = get_list_or_404(StopFamily)
+    return render(request, 'stops.html', {'stops': the_stops, 'families': the_families})

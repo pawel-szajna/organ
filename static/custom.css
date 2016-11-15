@@ -5,3 +5,17 @@ a.stop {
 a.stop.reed {
     color: red;
 }
+
+.stop-examples {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.stop-examples li {
+    margin-bottom: .45em;
+}
+
+.altcols h2:first-child {
+    margin-top: 0;
+}

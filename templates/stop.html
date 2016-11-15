@@ -6,32 +6,40 @@
 
 <h1>{{ stop_type.name }}</h1>
 
+<div class="row altcols">
+
+<div class="col-md-6">
 {% for family in stop_type.families.all %}
 {% if forloop.first %}<p class="lead">Rodziny głosu:{% endif %}
 <a class="label label-primary" href="{% url 'view-family' family.pk %}">{{ family.name }}</a>
 {% if forloop.last %}</p>{% endif %}
 {% endfor %}
-
 <p>{{ stop_type.description }}</p>
+</div>
 
+<div class="col-md-3">
 <h2>Próbki dźwiękowe</h2>
 
 {% for sample in stop_type.sample_set.all %}
 {% empty %}
     <p>Brak próbek dźwiękowych tego głosu.</p>
 {% endfor %}
+</div>
 
-<h2>Głosy tego typu w polskich organach</h2>
+<div class="col-md-3">
+<h2>W instrumentach</h2>
 
-<ul>
+<ul class="stop-examples">
 {% for stop in stop_type.stop_set.all %}
     <li>
-        {{ stop.name }}{% if stop.length %} {{ stop.length }}'{% endif %}, {{ stop.keyboard.name }},
-        <a href="{% url 'view-instrument' stop.keyboard.instrument.pk %}">{{ stop.keyboard.instrument.location.name }}, {{ stop.keyboard.instrument.location.city.name }}</a>
+        <a href="{% url 'view-instrument' stop.keyboard.instrument.pk %}">{{ stop.keyboard.instrument.location.name }}, {{ stop.keyboard.instrument.location.city.name }}</a><br>
+        {{ stop.name }}{% if stop.length %} {{ stop.length }}'{% endif %}, {{ stop.keyboard.name }}
     </li>
 {% empty %}
     <p>Brak głosów tego typu w bazie.</p>
 {% endfor %}
 </ul>
+</div>
+</div>
 
 {% include "footer.html" %}

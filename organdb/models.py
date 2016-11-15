@@ -104,6 +104,7 @@ class StopFamily(models.Model):
     class Meta:
         verbose_name = "rodzina głosów"
         verbose_name_plural = "rodziny głosów"
+        ordering = ['name']
 
     def __str__(self):
         return 'Rodzina głosów: {}'.format(self.name)
@@ -117,6 +118,7 @@ class StopType(models.Model):
     class Meta:
         verbose_name = "typ głosu"
         verbose_name_plural = "typy głosów"
+        ordering = ['name']
 
     def __str__(self):
         return 'Typ głosu: {}'.format(self.name)

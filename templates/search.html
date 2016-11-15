@@ -1,0 +1,74 @@
+{% include "header.html" %}
+
+<title>Wyszukiwanie &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>Wyszukiwarka instrumentów</h1>
+
+<p>W celu przeszukania bazy instrumentów należy wypełnić przynajmniej jedno kryterium wyszukiwania.</p>
+
+<form class="form-horizontal">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group form-group-lg">
+                <label for="city" class="col-sm-3 control-label">Miejscowość</label>
+                <div class="col-sm-9"><input type="text" class="form-control" id="city" placeholder="np. Warszawa"></div>
+            </div>
+            <div class="form-group form-group-lg">
+                <label for="location" class="col-sm-3 control-label">Lokacja</label>
+                <div class="col-sm-9"><input type="text" class="form-control" id="location" placeholder="np. Katedra, Szkoła muzyczna, św. Antoniego"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="keyboards" class="col-sm-3 control-label">Klawiatury</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <div class="input-group-addon">Manuały</div>
+                        <input type="text" class="form-control" id="keyboards" placeholder="np. 3">
+                        <div class="input-group-addon">
+                            <input type="checkbox" id="pedalboard">
+                            <label for="pedalboard">Pedał</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="voicesmin" class="col-sm-3 control-label">Liczba głosów</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <div class="input-group-addon">Minimum</div>
+                        <input type="text" class="form-control" id="voicesmin">
+                        <div class="input-group-addon">Maksimum</div>
+                        <input type="text" class="form-control" id="voicesmax">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="keyaction" class="col-sm-3 control-label">Traktura</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <div class="input-group-addon">Gry</div>
+                        <select class="form-control" id="keyaction">
+                            <option>dowolna</option>
+                            <option value="m">mechaniczna</option>
+                            <option value="p">pneumatyczna</option>
+                            <option value="e">elektro-pneumatyczna</option>
+                        </select>
+                        <div class="input-group-addon">Rejestrów</div>
+                        <select class="form-control" id="stopaction">
+                            <option>dowolna</option>
+                            <option value="m">mechaniczna</option>
+                            <option value="p">pneumatyczna</option>
+                            <option value="e">elektro-pneumatyczna</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Wyszukaj">
+</form>
+
+{% include "footer.html" %}

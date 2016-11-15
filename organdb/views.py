@@ -57,3 +57,7 @@ def concerts(request):
 def family(request, family_id):
     the_family = get_object_or_404(StopFamily, pk=family_id)
     return render(request, 'family.html', {'family': the_family})
+
+
+def search(request):
+    return render(request, 'search.html', {})

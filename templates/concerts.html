@@ -1,0 +1,18 @@
+{% include "header.html" %}
+
+<title>Koncerty &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+{% for region in concerts %}
+    <h2 id="woj-{{ region.region.pk }}">Województwo {{ region.region.name }}</h2>
+    {% for concert in region.concerts %}
+        {% if forloop.first %}<ul class="concerts-in-region">{% endif %}
+        <li><a href="{% url 'view-concert' concert.pk %}">{{ concert.name }}</a>, {{ concert.instrument.location.city.name }}, {{ concert.instrument.location.name }}, {{ concert.date }}</li>
+        {% if forloop.last %}</ul>{% endif %}
+    {% empty %}
+        <p>Brak danych o koncertach w tym województwie.</p>
+    {% endfor %}
+{% endfor %}
+
+{% include "footer.html" %}

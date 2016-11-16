@@ -124,7 +124,7 @@ class StopType(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        return 'Typ głosu: {}'.format(self.name)
+        return self.name
 
 
 class Stop(models.Model):
@@ -214,6 +214,7 @@ class Concert(models.Model):
     class Meta:
         verbose_name = "koncert"
         verbose_name_plural = "koncerty"
+        ordering = ['date', 'name']
 
     def __str__(self):
         return 'Koncert: {}, {}, {}'.format(self.instrument.location.city.name, self.instrument.location.name, self.date)

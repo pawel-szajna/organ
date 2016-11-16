@@ -1,6 +1,6 @@
 {% include "header.html" %}
 
-<title>{{ instrument.location.name }}, {{ instrument.location.city.name }} &ndash; Polskie organy piszczałkowe</title>
+<title>{% if instrument.comment %}{{ instrument.comment|capfirst }}, {% endif %}{{ instrument.location.name }}, {{ instrument.location.city.name }} &ndash; Polskie organy piszczałkowe</title>
 
 {% include "navigation.html" %}
 
@@ -66,32 +66,22 @@
 
         <p>{{ instrument.additional_features }}</p>
 
-        <h2>Nagrania</h2>
-
         {% for recording in instrument.recording_set.all %}
-            {% if forloop.first %}<ul class="recordings">{% endif %}
+            {% if forloop.first %}<h2>Nagrania</h2><ul class="recordings">{% endif %}
                 {% include "recording.html" %}
             {% if forloop.last %}</ul>{% endif %}
-        {% empty %}
-            <p>Brak nagrań tego instrumentu.</p>
         {% endfor %}
 
-        <h2>Prace przy instrumencie</h2>
         {% for work in instrument.work_set.all %}
-            {% if forloop.first %}<ul class="works">{% endif %}
+            {% if forloop.first %}<h2>Prace przy instrumencie</h2><ul class="works">{% endif %}
                 <li>{{ work.type }}</li>
             {% if forloop.last %}</ul>{% endif %}
-        {% empty %}
-            <p>Brak informacji o pracach prowadzonych przy instrumencie.</p>
         {% endfor %}
 
-        <h2>Nadchodzące koncerty</h2>
         {% for concert in concerts %}
-            {% if forloop.first %}<ul class="concerts">{% endif %}
+            {% if forloop.first %}<h2>Nadchodzące koncerty</h2><ul class="concerts">{% endif %}
                 <li><a href="{% url 'view-concert' concert.pk %}">{{ concert.name }}</a>, {{ concert.date }}</li>
             {% if forloop.last %}</ul>{% endif %}
-        {% empty %}
-            <p>Brak informacji na temat koncertów na tym instrumencie.</p>
         {% endfor %}
 
     </div>

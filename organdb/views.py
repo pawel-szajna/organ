@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.template import Context
 from django.http import HttpResponse
 import datetime
 
@@ -51,7 +52,17 @@ def builder(request, builder_id):
 
 
 def concerts(request):
-    return render(request, 'concerts.html', {})
+    regions = list(Region.objects.all())
+    the_concerts = list()
+    for region in regions:
+        the_concerts.append({
+            'region': region,
+            'concerts': list(Concert.objects.filter(
+                instrument__location__city__region__pk=region.pk,
+                date__gte=datetime.datetime.now()
+            ))
+        })
+    return render(request, 'concerts.html', {'concerts': the_concerts})
 
 
 def family(request, family_id):

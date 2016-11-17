@@ -73,7 +73,7 @@ class Builder(models.Model):
         verbose_name_plural = 'organmistrzowie'
 
     def __str__(self):
-        return 'Organmistrz: {}'.format(self.name)
+        return self.name
 
 
 class Instrument(models.Model):
@@ -94,18 +94,16 @@ class Instrument(models.Model):
                                          'w tej samej lokacji.')
     key_action = models.CharField(max_length=20, choices=ACTION_CHOICES, verbose_name='traktura gry')
     stop_action = models.CharField(max_length=20, choices=ACTION_CHOICES, verbose_name='traktura rejestrów')
-    stops = models.IntegerField(verbose_name='liczba głosów',
+    stops = models.IntegerField(verbose_name='głosy',
                                 help_text='Liczba głosów w instrumencie (bez uwzględnienia urządzeń takich jak '
                                           'połączenia, termolo).')
-    keyboards = models.IntegerField(verbose_name='liczba manuałów')
+    keyboards = models.IntegerField(verbose_name='manuały', help_text='Liczba manuałów w insturmencie.')
     pedalboard = models.BooleanField(verbose_name='pedał')
     description = models.TextField(verbose_name='opis')
     additional_features = models.TextField(blank=True, null=True, verbose_name='dodatkowe urządzenia',
                                            help_text='Opis dodatkowych urządzeń (wolne kombinacje, połączenia itp.).')
     builder = models.ForeignKey(Builder, blank=True, null=True, verbose_name='budowniczy')
     location = models.ForeignKey(Location, verbose_name='lokacja')
-    published = models.BooleanField(verbose_name='opublikowane',
-                                    help_text='Tylko instrumenty oznaczone jako opublikowane będą widoczne w serwisie.')
 
     class Meta:
         verbose_name = 'instrument'
@@ -118,7 +116,7 @@ class Instrument(models.Model):
     def region_name(self):
         return self.location.city.region.name
 
-    region_name.short_description = 'Województwo'
+    region_name.short_description = 'województwo'
 
 
 class Keyboard(models.Model):
@@ -160,7 +158,12 @@ class StopFamily(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        return 'Rodzina głosów: {}'.format(self.name)
+        return self.name
+
+    def stop_types(self):
+        return self.stoptype_set.count()
+
+    stop_types.short_description = 'typy głosów'
 
 
 class StopType(models.Model):
@@ -242,8 +245,8 @@ class Work(models.Model):
         verbose_name_plural = 'prace'
 
     def __str__(self):
-        return 'Praca organmistrza {} przy {}, {} ({})'.format(self.builder.name, self.instrument.location.name,
-                                                               self.instrument.location.city.name, self.year)
+        return '{}, {}, {} ({})'.format(self.type, self.instrument.location.name,
+                                        self.instrument.location.city.name, self.year)
 
 
 class Performer(models.Model):
@@ -262,6 +265,15 @@ class Performer(models.Model):
 
     def __str__(self):
         return self.name
+
+    def concert_count(self):
+        return self.concert_set.count()
+
+    def recording_count(self):
+        return self.recording_set.count()
+
+    concert_count.short_description = 'koncerty'
+    recording_count.short_description = 'nagrania'
 
 
 class Recording(models.Model):

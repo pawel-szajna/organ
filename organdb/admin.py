@@ -30,9 +30,9 @@ class WorkInline(nested_admin.NestedStackedInline):
 
 @admin.register(Instrument)
 class InstrumentAdmin(nested_admin.NestedModelAdmin):
-    list_display = ['region_name', 'location', 'comment', 'stops', 'published']
+    list_display = ['region_name', 'location', 'comment', 'stops', 'keyboards', 'pedalboard']
     list_display_links = ['location', 'comment']
-    list_filter = ['published', 'location__city__region']
+    list_filter = ['location__city__region', 'keyboards', 'pedalboard']
     search_fields = ['location__name', 'location__city__name', 'location__city__region__name', 'comment']
     inlines = [PhotoInline, KeyboardInline, WorkInline]
 
@@ -66,7 +66,8 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Builder)
 class BuilderAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name']
+    search_fields = ['name', 'biography']
 
 
 class SampleInline(admin.TabularInline):
@@ -77,7 +78,7 @@ class SampleInline(admin.TabularInline):
 @admin.register(StopType)
 class StopTypeAdmin(admin.ModelAdmin):
     list_display = ['name']
-    list_filter = ['families__name']
+    list_filter = ['families']
     search_fields = ['name', 'families__name']
     filter_horizontal = ['families']
     inlines = [SampleInline]
@@ -85,12 +86,14 @@ class StopTypeAdmin(admin.ModelAdmin):
 
 @admin.register(StopFamily)
 class StopFamilyAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'stop_types']
+    search_fields = ['name', 'description']
 
 
 @admin.register(Performer)
 class PerformerAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'concert_count', 'recording_count']
+    search_fields = ['name', 'biography']
 
 
 @admin.register(Concert)

@@ -8,7 +8,6 @@ class Region(models.Model):
     A region which groups cities.
     """
     name = models.CharField(max_length=30, unique=True, verbose_name='nazwa')
-    description = models.TextField(blank=True, null=True, verbose_name='opis')
 
     class Meta:
         verbose_name = 'region'
@@ -24,7 +23,6 @@ class City(models.Model):
     A city, belonging to a region, which groups locations.
     """
     name = models.CharField(max_length=30, verbose_name='nazwa')
-    description = models.TextField(blank=True, null=True, verbose_name='opis')
     region = models.ForeignKey(Region, verbose_name='region')
 
     class Meta:

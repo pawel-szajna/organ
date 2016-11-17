@@ -17,7 +17,7 @@
     {% endif %}
 </dl>
 
-<p>{{ builder.biography }}</p>
+{{ biography|safe }}
 
 <h2>Instrumenty wybudowane przez organmistrza</h2>
 
@@ -33,7 +33,7 @@
 
 <ul class="works">
 {% for work in builder.work_set.all %}
-    <li><a href=""></a></li>
+    <li><a href="{% url 'view-work' work.pk %}">{{ work.type|capfirst }}</a>, {% if work.instrument.comment %}{{ work.instrument.comment }}{% endif %}{{ work.instrument.location.name }}, {{ work.instrument.location.city.name }}, {{ work.year }}</li>
 {% empty %}
     <p>Brak danych o pracach prowadzonych przez tego organmistrza.</p>
 {% endfor %}

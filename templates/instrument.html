@@ -44,7 +44,7 @@
             {% endif %}
         </dl>
 
-        <p>{{ instrument.description }}</p>
+        {{ description|safe }}
 
         {% for keyboard in instrument.keyboard_set.all %}
             {% if forloop.first %}<div class="row">{% endif %}
@@ -64,7 +64,7 @@
             <p>Brak informacji o dyspozycji instrumentu.</p>
         {% endfor %}
 
-        <p>{{ instrument.additional_features }}</p>
+        {{ additional|safe }}
 
         {% for recording in instrument.recording_set.all %}
             {% if forloop.first %}<h2>Nagrania</h2><ul class="recordings">{% endif %}
@@ -74,7 +74,7 @@
 
         {% for work in instrument.work_set.all %}
             {% if forloop.first %}<h2>Prace przy instrumencie</h2><ul class="works">{% endif %}
-                <li>{{ work.type }}</li>
+                <li><a href="{% url 'view-work' work.pk %}">{{ work.type|capfirst }}</a>, {{ work.builder.name }}, {{ work.year }}</li>
             {% if forloop.last %}</ul>{% endif %}
         {% endfor %}
 
@@ -89,7 +89,7 @@
     <div class="col-md-4">
         {% for photo in instrument.photo_set.all %}
             {% if forloop.first %}<h2>Fotografie</h2>{% endif %}
-            <p><img class="img-responsive" src="{{ MEDIA_URL }}{{ photo.file.url }}" alt="{{ photo.description }}"></p>
+            <p><img class="img-responsive" src="{{ MEDIA_URL }}{{ photo.file.url }}" alt="{{ photo.description }}" title="{{ photo.description }}"></p>
         {% endfor %}
 
         {% if instrument.comment %}

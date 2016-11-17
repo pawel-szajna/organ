@@ -1,5 +1,4 @@
-from platform import mac_ver
-
+from django_markdown.models import MarkdownField
 from django.db import models
 
 
@@ -62,7 +61,7 @@ class Builder(models.Model):
     some work done on an instrument.
     """
     name = models.CharField(max_length=40, verbose_name='imię i nazwisko')
-    biography = models.TextField(verbose_name='biografia')
+    biography = MarkdownField(verbose_name='biografia')
     born = models.DateField(blank=True, null=True, verbose_name='data urodzenia')
     died = models.DateField(blank=True, null=True, verbose_name='data śmierci')
 
@@ -97,7 +96,7 @@ class Instrument(models.Model):
                                           'połączenia, termolo).')
     keyboards = models.IntegerField(verbose_name='manuały', help_text='Liczba manuałów w insturmencie.')
     pedalboard = models.BooleanField(verbose_name='pedał')
-    description = models.TextField(verbose_name='opis')
+    description = MarkdownField(verbose_name='opis')
     additional_features = models.TextField(blank=True, null=True, verbose_name='dodatkowe urządzenia',
                                            help_text='Opis dodatkowych urządzeń (wolne kombinacje, połączenia itp.).')
     builder = models.ForeignKey(Builder, blank=True, null=True, verbose_name='budowniczy')
@@ -148,7 +147,7 @@ class StopFamily(models.Model):
     A stop family is used as a kind of tagging system for stop types.
     """
     name = models.CharField(max_length=30, verbose_name='nazwa')
-    description = models.TextField(verbose_name='opis')
+    description = MarkdownField(verbose_name='opis')
 
     class Meta:
         verbose_name = 'rodzina głosów'
@@ -169,7 +168,7 @@ class StopType(models.Model):
     A stop type is an entry in stop library. A stop type can belong to any number of stop families.
     """
     name = models.CharField(max_length=30, verbose_name='nazwa')
-    description = models.TextField(verbose_name='opis')
+    description = MarkdownField(verbose_name='opis')
     families = models.ManyToManyField(StopFamily, blank=True, verbose_name='rodziny głosu')
 
     class Meta:
@@ -217,7 +216,7 @@ class Sample(models.Model):
     A sample is a recording which represents sound of a single stop type.
     """
     file = models.FileField(upload_to='samples/', verbose_name='plik')
-    description = models.TextField(verbose_name='opis')
+    description = models.CharField(max_length=100, verbose_name='opis')
     stop_type = models.ForeignKey(StopType, verbose_name='typ głosu')
 
     class Meta:
@@ -232,15 +231,24 @@ class Work(models.Model):
     """
     Work done on an instrument.
     """
-    type = models.CharField(max_length=60, verbose_name='rodzaj prac')
+    TYPE_CHOICES = (
+        ('strojenie', 'strojenie'),
+        ('remont', 'remont'),
+        ('przebudowa', 'przebudowa'),
+        ('przeniesienie', 'przeniesienie'),
+        ('inne prace', 'inne prace'),
+    )
+
+    type = models.CharField(max_length=15, choices=TYPE_CHOICES, verbose_name='rodzaj prac')
     year = models.IntegerField(verbose_name='rok')
-    description = models.TextField(verbose_name='opis')
+    description = MarkdownField(verbose_name='opis')
     instrument = models.ForeignKey(Instrument, verbose_name='instrument')
     builder = models.ForeignKey(Builder, verbose_name='organmistrz')
 
     class Meta:
         verbose_name = 'praca'
         verbose_name_plural = 'prace'
+        ordering = ['instrument', '-year']
 
     def __str__(self):
         return '{}, {}, {} ({})'.format(self.type, self.instrument.location.name,
@@ -254,7 +262,7 @@ class Performer(models.Model):
     name = models.CharField(max_length=40, verbose_name='imię i nazwisko')
     born = models.DateField(blank=True, null=True, verbose_name='data urodzenia')
     died = models.DateField(blank=True, null=True, verbose_name='data śmierci')
-    biography = models.TextField(verbose_name='biografia')
+    biography = MarkdownField(verbose_name='biografia')
     photo = models.ImageField(blank=True, null=True, verbose_name='zdjęcie')
 
     class Meta:
@@ -279,7 +287,7 @@ class Recording(models.Model):
     A recording is a sound sample of a specific insturment.
     """
     file = models.FileField(upload_to='recordings/', verbose_name='plik')
-    description = models.TextField(verbose_name='opis',
+    description = models.CharField(max_length=120, verbose_name='opis',
                                    help_text='Krótki komentarz na temat nagrania, np. tytuł wykonywanego utworu.')
     performer = models.ForeignKey(Performer, verbose_name='wykonawca')
     instrument = models.ForeignKey(Instrument, verbose_name='instrument')
@@ -298,7 +306,7 @@ class Concert(models.Model):
     """
     name = models.CharField(max_length=30, verbose_name='nazwa')
     date = models.DateField(verbose_name='data')
-    description = models.TextField(verbose_name='opis')
+    description = MarkdownField(verbose_name='opis')
     instrument = models.ForeignKey(Instrument, verbose_name='instrument')
     performers = models.ManyToManyField(Performer, verbose_name='wykonawcy')
 

@@ -6,6 +6,8 @@
 
 <h1>{{ family.name }}</h1>
 
+{{ description|safe }}
+
 <ul>
     {% for stop in family.stoptype_set.all %}<li><a href="{% url 'view-stop-type' stop.pk %}">{{ stop.name }}</a></li>{% endfor %}
 </ul>

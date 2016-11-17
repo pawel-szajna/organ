@@ -22,7 +22,7 @@
             <dd>{{ concert.date }}</dd>
         </dl>
 
-        <p>{{ concert.description }}</p>
+        {{ description|safe }}
 
         <h2>Wykonawcy</h2>
 

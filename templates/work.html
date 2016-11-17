@@ -1,0 +1,22 @@
+{% include "header.html" %}
+
+<title>Prace przy instrumencie &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>{{ work.type|capfirst }}</h1>
+
+<dl class="dl-horizontal">
+    <dt>Instrument</dt>
+    <dd><a href="{% url 'view-instrument' work.instrument.pk %}">{% if work.instrument.comment %}{{ work.instrument.comment }}{% endif %}{{ work.instrument.location.name }}, {{ work.instrument.location.city.name }}</a></dd>
+
+    <dt>Organmistrz</dt>
+    <dd><a href="{% url 'view-builder' work.builder.pk %}">{{ work.builder }}</a></dd>
+
+    <dt>Data</dt>
+    <dd>{{ work.year }}</dd>
+</dl>
+
+{{ description|safe }}
+
+{% include "footer.html" %}

@@ -14,7 +14,9 @@
 <a class="label label-primary" href="{% url 'view-family' family.pk %}">{{ family.name }}</a>
 {% if forloop.last %}</p>{% endif %}
 {% endfor %}
-<p>{{ stop_type.description }}</p>
+
+{{ description|safe }}
+
 </div>
 
 <div class="col-md-3">

@@ -17,7 +17,7 @@
     {% endif %}
 </dl>
 
-<p>{{ performer.biography }}</p>
+{{ biography|safe }}
 
 <h2>Nagrania</h2>
 {% for recording in performer.recording_set.all %}

@@ -1,9 +1,21 @@
 from django.contrib import admin
+import nested_admin
 from .models import *
 
 
 admin.site.site_header = 'Polskie organy piszczałkowe'
 admin.site.site_title = 'Polskie organy piszczałkowe'
+
+
+class StopInline(nested_admin.NestedTabularInline):
+    model = Stop
+    extra = 1
+
+
+class KeyboardInline(nested_admin.NestedStackedInline):
+    model = Keyboard
+    extra = 0
+    inlines = [StopInline]
 
 
 @admin.register(Region)
@@ -27,17 +39,19 @@ class LocationAdmin(admin.ModelAdmin):
 
 
 @admin.register(Instrument)
-class InstrumentAdmin(admin.ModelAdmin):
+class InstrumentAdmin(nested_admin.NestedModelAdmin):
     list_display = ['region_name', 'location', 'comment', 'stops', 'published']
     list_display_links = ['location', 'comment']
     list_filter = ['published', 'location__city__region']
     search_fields = ['location__name', 'location__city__name', 'location__city__region__name', 'comment']
+    inlines = [KeyboardInline]
 
 
 @admin.register(Recording)
 class RecordingAdmin(admin.ModelAdmin):
     list_display = ['description', 'performer', 'instrument']
-    search_fields = ['description', 'performer__name', 'instrument__comment', 'instrument__location__name', 'instrument__location__city__name', 'instrument__location__city__region__name']
+    search_fields = ['description', 'performer__name', 'instrument__comment', 'instrument__location__name',
+                     'instrument__location__city__name', 'instrument__location__city__region__name']
 
 
 @admin.register(Builder)
@@ -50,14 +64,9 @@ class WorkAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Stop)
-class StopAdmin(admin.ModelAdmin):
-    pass
-
-
 @admin.register(StopType)
 class StopTypeAdmin(admin.ModelAdmin):
-    pass
+    filter_horizontal = ['families']
 
 
 @admin.register(StopFamily)
@@ -77,12 +86,11 @@ class PerformerAdmin(admin.ModelAdmin):
 
 @admin.register(Concert)
 class ConcertAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Keyboard)
-class KeyboardAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'date', 'instrument']
+    list_filter = ['instrument__location__city__region']
+    search_fields = ['name', 'date', 'instrument__comment', 'instrument__location__name',
+                     'instrument__location__city__name', 'instrument__location__city__region__name']
+    filter_horizontal = ['performers']
 
 
 @admin.register(Photo)

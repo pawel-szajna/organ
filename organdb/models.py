@@ -141,8 +141,8 @@ class Keyboard(models.Model):
         ordering = ['instrument', 'order']
 
     def __str__(self):
-        return 'Klawiatura: {} ({}, {})'.format(self.name, self.instrument.location.name,
-                                                self.instrument.location.city.name)
+        return '{} ({}, {})'.format(self.name, self.instrument.location.name,
+                                    self.instrument.location.city.name)
 
 
 class StopFamily(models.Model):

@@ -22,4 +22,5 @@ from django.conf import settings
 urlpatterns = [
     url(r'^manage/', admin.site.urls),
     url(r'^', include('organdb.urls')),
+    url(r'^_nested_admin/', include('nested_admin.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

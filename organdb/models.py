@@ -1,3 +1,5 @@
+from platform import mac_ver
+
 from django.db import models
 
 
@@ -305,7 +307,7 @@ class Photo(models.Model):
     A photo of an instrument.
     """
     file = models.ImageField(verbose_name='plik')
-    description = models.TextField(verbose_name='opis')
+    description = models.CharField(max_length=100, verbose_name='opis')
     instrument = models.ForeignKey(Instrument, verbose_name='instrument')
 
     class Meta:

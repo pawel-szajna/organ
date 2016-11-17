@@ -9,13 +9,34 @@ admin.site.site_title = 'Polskie organy piszczałkowe'
 
 class StopInline(nested_admin.NestedTabularInline):
     model = Stop
-    extra = 1
+    extra = 0
 
 
 class KeyboardInline(nested_admin.NestedStackedInline):
     model = Keyboard
     extra = 0
     inlines = [StopInline]
+
+
+class PhotoInline(nested_admin.NestedTabularInline):
+    model = Photo
+    extra = 0
+
+
+@admin.register(Instrument)
+class InstrumentAdmin(nested_admin.NestedModelAdmin):
+    list_display = ['region_name', 'location', 'comment', 'stops', 'published']
+    list_display_links = ['location', 'comment']
+    list_filter = ['published', 'location__city__region']
+    search_fields = ['location__name', 'location__city__name', 'location__city__region__name', 'comment']
+    inlines = [PhotoInline, KeyboardInline]
+
+
+@admin.register(Recording)
+class RecordingAdmin(admin.ModelAdmin):
+    list_display = ['description', 'performer', 'instrument']
+    search_fields = ['description', 'performer__name', 'instrument__comment', 'instrument__location__name',
+                     'instrument__location__city__name', 'instrument__location__city__region__name']
 
 
 @admin.register(Region)
@@ -36,22 +57,6 @@ class LocationAdmin(admin.ModelAdmin):
     list_display = ['name', 'city']
     list_filter = ['city__region']
     search_fields = ['name', 'city__name', 'city__region__name']
-
-
-@admin.register(Instrument)
-class InstrumentAdmin(nested_admin.NestedModelAdmin):
-    list_display = ['region_name', 'location', 'comment', 'stops', 'published']
-    list_display_links = ['location', 'comment']
-    list_filter = ['published', 'location__city__region']
-    search_fields = ['location__name', 'location__city__name', 'location__city__region__name', 'comment']
-    inlines = [KeyboardInline]
-
-
-@admin.register(Recording)
-class RecordingAdmin(admin.ModelAdmin):
-    list_display = ['description', 'performer', 'instrument']
-    search_fields = ['description', 'performer__name', 'instrument__comment', 'instrument__location__name',
-                     'instrument__location__city__name', 'instrument__location__city__region__name']
 
 
 @admin.register(Builder)
@@ -91,8 +96,3 @@ class ConcertAdmin(admin.ModelAdmin):
     search_fields = ['name', 'date', 'instrument__comment', 'instrument__location__name',
                      'instrument__location__city__name', 'instrument__location__city__region__name']
     filter_horizontal = ['performers']
-
-
-@admin.register(Photo)
-class PhotoAdmin(admin.ModelAdmin):
-    pass

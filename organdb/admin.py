@@ -23,13 +23,18 @@ class PhotoInline(nested_admin.NestedTabularInline):
     extra = 0
 
 
+class WorkInline(nested_admin.NestedStackedInline):
+    model = Work
+    extra = 0
+
+
 @admin.register(Instrument)
 class InstrumentAdmin(nested_admin.NestedModelAdmin):
     list_display = ['region_name', 'location', 'comment', 'stops', 'published']
     list_display_links = ['location', 'comment']
     list_filter = ['published', 'location__city__region']
     search_fields = ['location__name', 'location__city__name', 'location__city__region__name', 'comment']
-    inlines = [PhotoInline, KeyboardInline]
+    inlines = [PhotoInline, KeyboardInline, WorkInline]
 
 
 @admin.register(Recording)
@@ -64,23 +69,22 @@ class BuilderAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Work)
-class WorkAdmin(admin.ModelAdmin):
-    pass
+class SampleInline(admin.TabularInline):
+    model = Sample
+    extra = 0
 
 
 @admin.register(StopType)
 class StopTypeAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_filter = ['families__name']
+    search_fields = ['name', 'families__name']
     filter_horizontal = ['families']
+    inlines = [SampleInline]
 
 
 @admin.register(StopFamily)
 class StopFamilyAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Sample)
-class SampleAdmin(admin.ModelAdmin):
     pass
 
 

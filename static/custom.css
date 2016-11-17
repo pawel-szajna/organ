@@ -19,3 +19,43 @@ a.stop.reed {
 .altcols h2:first-child {
     margin-top: 0;
 }
+
+.homepage {
+    background: url(/static/home_2.jpg) center no-repeat fixed;
+    background-size: cover;
+    text-shadow: 2px 2px 3px black;
+    color: white !important;
+}
+
+.homepage .navbar {
+    background: none;
+    border: none;
+}
+
+.homepage .navbar a {
+    color: white !important;
+    text-shadow: 1px 1px 2px black;
+}
+
+.homepage .navbar li:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.homepage .jumbotron {
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+.homepage h2 {
+    color: white;
+}
+
+.homepage .btn {
+    text-shadow: none;
+}
+
+.homelist a {
+    font-size: 1.3em;
+    color: white;
+}

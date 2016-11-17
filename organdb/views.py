@@ -7,7 +7,10 @@ from .models import *
 
 
 def index(request):
-    return render(request, 'index.html', {})
+    instruments = list(Instrument.objects.order_by('-pk')[:6])
+    concerts = list(Concert.objects.filter(date__gte=datetime.datetime.now())[:6])
+    stops = list(StopType.objects.order_by('?')[:6])
+    return render(request, 'index.html', {'instruments': instruments, 'concerts': concerts, 'stops': stops})
 
 
 def instrument(request, instrument_id):

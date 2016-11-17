@@ -2,47 +2,74 @@
 
 <title>Polskie organy piszczałkowe</title>
 
-{% include "navigation.html" %}
+</head>
 
-{#    TODO: strona główna która ma sens#}
+<body class="homepage">
+
+    <nav class="navbar navbar-default navbar-static-top">
+    	<div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Polskie organy piszczałkowe</a>
+        </div>
+        <div id="navbar-main" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+              {% include "navlist.html" %}
+          </ul>
+        </div><!--/.navbar-collapse -->
+        </div>
+    </nav>
+
+    <div class="container">
 
     <div class="jumbotron">
       <div class="container">
-        <h1>Witamy</h1>
-        <p>(powitanie)</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Szukaj &raquo;</a></p>
+        <h1>Witamy w organowej bibliotece!</h1>
+        <p>Poznaj najciekawsze polskie organy piszczałkowe już dziś!</p>
+        <p class="row"><input type="text" class="form-control" autofocus> <a class="btn btn-primary btn-lg" href="#" role="button">Szukaj &raquo;</a></p>
       </div>
     </div>
 
     <div class="container">
       <div class="row">
         <div class="col-md-4">
-          <h2>Ostatnio zmieniane</h2>
-          <p>Tu pojawią się ostatnio zaktualizowane instrumenty</p>
-          <p><a class="btn btn-default" href="#" role="button">Zobacz więcej &raquo;</a></p>
+          <h2>Ostatnio dodane</h2>
+          <ul class="homelist">
+            {% for instrument in instruments %}
+                <li><a href="{% url 'view-instrument' instrument.pk %}">{% if instrument.comment %}{{ instrument.comment|capfirst }}{% else %}{{ instrument.location.name }}{% endif %}</a></li>
+            {% endfor %}
+          </ul>
+          <p><a class="btn btn-default" href="{% url 'view-browse' %}" role="button">Przeglądaj instrumenty &raquo;</a></p>
         </div>
         <div class="col-md-4">
           <h2>Najbliższe koncerty</h2>
-          <p>Koncerty muzyki organowej</p>
-          <p><a class="btn btn-default" href="#" role="button">Zobacz więcej &raquo;</a></p>
+          <ul class="homelist">
+            {% for concert in concerts %}
+                <li><a href="{% url 'view-concert' concert.pk %}">{{ concert.name }}, {{ concert.instrument.location.city.name }}, {{ concert.date }}</a></li>
+            {% endfor %}
+          </ul>
+          <p><a class="btn btn-default" href="{% url 'view-concerts' %}" role="button">Szukaj koncertów &raquo;</a></p>
        </div>
         <div class="col-md-4">
           <h2>Encyklopedia głosów</h2>
-          <p>Kilka przypadkowo wybranych głosów organowych</p>
-          <p><a class="btn btn-default" href="#" role="button">Zobacz więcej &raquo;</a></p>
+          <ul class="homelist">
+              {% for stop in stops %}
+                  <li><a href="{% url 'view-stop-type' stop.pk %}">{{ stop.name }}</a></li>
+              {% endfor %}
+          </ul>
+          <p><a class="btn btn-default" href="{% url 'view-stops' %}" role="button">Przewertuj encyklpoedię &raquo;</a></p>
         </div>
       </div>
 
-      <hr>
-
-      <footer>
-        <p>&copy; 2016</p>
-      </footer>
-    </div> <!-- /container -->
-
-    <script 
-    	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-    	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script
+    	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     	crossorigin="anonymous">
     </script>
 

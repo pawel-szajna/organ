@@ -41,7 +41,7 @@ class Location(models.Model):
     A location, belonging to a city, which can be home of any number (but usually one) instrument. A location
     is associated with an address and, optionally, coordinates for Google Maps map display.
     """
-    name = models.CharField(max_length=50, verbose_name='nazwa')
+    name = models.CharField(max_length=70, verbose_name='nazwa')
     address = models.CharField(max_length=100, verbose_name='adres')
     city = models.ForeignKey(City, verbose_name='miejscowość')
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True,

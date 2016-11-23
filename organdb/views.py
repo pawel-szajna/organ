@@ -56,10 +56,12 @@ def instrument(request, instrument_id):
 def stop_type(request, stop_type_id):
     the_stop_type = get_object_or_404(StopType, pk=stop_type_id)
     description = markdown.markdown(linkify(the_stop_type.description, 'view-stop-type', StopType))
+    examples = list(Stop.objects.filter(type=the_stop_type.pk).order_by('?')[:6])
 
     return render(request, 'stop.html', {
         'stop_type': the_stop_type,
         'description': description,
+        'examples': examples,
     })
 
 

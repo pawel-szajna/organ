@@ -32,7 +32,7 @@
 <h2>W instrumentach</h2>
 
 <ul class="stop-examples">
-{% for stop in stop_type.stop_set.all %}
+{% for stop in examples %}
     <li>
         <a href="{% url 'view-instrument' stop.keyboard.instrument.pk %}">{{ stop.keyboard.instrument.location.name }}, {{ stop.keyboard.instrument.location.city.name }}</a><br>
         <strong>{{ stop.name }}{% if stop.length %} {{ stop.length }}'{% endif %}</strong>, {{ stop.keyboard.name }}

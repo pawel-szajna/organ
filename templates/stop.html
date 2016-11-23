@@ -35,7 +35,7 @@
 {% for stop in stop_type.stop_set.all %}
     <li>
         <a href="{% url 'view-instrument' stop.keyboard.instrument.pk %}">{{ stop.keyboard.instrument.location.name }}, {{ stop.keyboard.instrument.location.city.name }}</a><br>
-        {{ stop.name }}{% if stop.length %} {{ stop.length }}'{% endif %}, {{ stop.keyboard.name }}
+        <strong>{{ stop.name }}{% if stop.length %} {{ stop.length }}'{% endif %}</strong>, {{ stop.keyboard.name }}
     </li>
 {% empty %}
     <p>Brak głosów tego typu w bazie.</p>

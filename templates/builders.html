@@ -1,0 +1,15 @@
+{% include "header.html" %}
+
+<title>Organmistrzowie &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>Organmistrzowie</h1>
+
+<ul class="builders-list">
+    {% for builder in builders %}
+        <li><a href="{% url 'view-builder' builder.pk %}">{{ builder.name }}</a></li>
+    {% endfor %}
+</ul>
+
+{% include "footer.html" %}

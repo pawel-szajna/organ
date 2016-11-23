@@ -58,6 +58,7 @@ def performers(request):
         'performers': the_performers,
     })
 
+
 def concert(request, concert_id):
     the_concert = get_object_or_404(Concert, pk=concert_id)
     description = markdown.markdown(the_concert.description)
@@ -101,6 +102,14 @@ def builder(request, builder_id):
     return render(request, 'builder.html', {
         'builder': the_builder,
         'biography': biography,
+    })
+
+
+def builders(request):
+    the_builders = get_list_or_404(Builder)
+
+    return render(request, 'builders.html', {
+        'builders': the_builders,
     })
 
 

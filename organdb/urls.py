@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^region/(?P<region_id>[0-9]+)', views.region, name='view-region'),
     url(r'^instrument/(?P<instrument_id>[0-9]+)', views.instrument, name='view-instrument'),
     url(r'^work/(?P<work_id>[0-9]+)', views.work, name='view-work'),
+    url(r'^builders/', views.builders, name='view-builders'),
     url(r'^builder/(?P<builder_id>[0-9]+)', views.builder, name='view-builder'),
 
     # Stops library

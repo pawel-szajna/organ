@@ -1,9 +1,27 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.core.urlresolvers import reverse
 import markdown
 import datetime
+import re
 
 from .models import *
 
+
+# Helper function to enable easy linking
+
+def linkify(markdown, target_view, target_class):
+
+    def generate_link(matchobj):
+        stop_name = matchobj.group(0)[2:-2]
+        try:
+            return '[' + stop_name + '](' + reverse(target_view, None, [target_class.objects.get(name__iexact=stop_name).pk]) + ')'
+        except:
+            return stop_name
+
+    return re.sub(r'\[\[(.*?)\]\]', generate_link, markdown)
+
+
+# The views
 
 def index(request):
     instruments = list(Instrument.objects.order_by('-pk')[:6])
@@ -22,18 +40,22 @@ def instrument(request, instrument_id):
     description = markdown.markdown(the_instrument.description)
     additional = markdown.markdown(the_instrument.additional_features.replace('\n', '\n\n'))
     concerts = list(Concert.objects.filter(instrument=instrument_id, date__gte=datetime.datetime.now()))
+    column_count = 4 if the_instrument.keyboards == 3 and the_instrument.pedalboard else 3
+    column_size = 3 if column_count == 4 else 4
 
     return render(request, 'instrument.html', {
         'instrument': the_instrument,
         'concerts': concerts,
         'description': description,
         'additional': additional,
+        'column_count': column_count,
+        'column_size': column_size,
     })
 
 
 def stop_type(request, stop_type_id):
     the_stop_type = get_object_or_404(StopType, pk=stop_type_id)
-    description = markdown.markdown(the_stop_type.description)
+    description = markdown.markdown(linkify(the_stop_type.description, 'view-stop-type', StopType))
 
     return render(request, 'stop.html', {
         'stop_type': the_stop_type,
@@ -133,7 +155,7 @@ def concerts(request):
 
 def family(request, family_id):
     the_family = get_object_or_404(StopFamily, pk=family_id)
-    description = markdown.markdown(the_family.description)
+    description = markdown.markdown(linkify(the_family.description, 'view-family', StopFamily))
     families = list(StopFamily.objects.all())
 
     return render(request, 'family.html', {

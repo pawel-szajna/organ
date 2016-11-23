@@ -37,7 +37,7 @@ a.stop.reed {
     text-shadow: 1px 1px 2px black;
 }
 
-.homepage .navbar li:hover {
+.homepage .navbar li:hover, .homepage .navbar li.dropdown.open {
     background: rgba(255, 255, 255, 0.3);
 }
 
@@ -62,4 +62,14 @@ a.stop.reed {
 
 .side-list h2:first-child {
     padding-top: .2em;
+}
+
+.homepage .collapse.in, .homepage .collapsing {
+    background: rgba(255, 255, 255, 0.2);
+    border-bottom: 1px white solid;
+}
+
+.homepage .dropdown-menu {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
 }

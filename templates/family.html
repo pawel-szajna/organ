@@ -4,12 +4,26 @@
 
 {% include "navigation.html" %}
 
-<h1>{{ family.name }}</h1>
+<div class="row">
 
-{{ description|safe }}
+    <div class="col-md-4 side-list">
+        <h2>Rodziny głosów</h2>
 
-<ul>
-    {% for stop in family.stoptype_set.all %}<li><a href="{% url 'view-stop-type' stop.pk %}">{{ stop.name }}</a></li>{% endfor %}
-</ul>
+        <ul class="families-side-list">
+            {% for afamily in families %}<li>{% if afamily.pk == family.pk %}<strong>{{ afamily.name }}</strong>{% else %}<a href="{{ afamily.pk }}">{{ afamily.name }}</a>{% endif %}</li>{% endfor %}
+        </ul>
+    </div>
+
+    <div class="col-md-8">
+        <h1>{{ family.name }}</h1>
+
+        {{ description|safe }}
+
+        <ul>
+            {% for stop in family.stoptype_set.all %}<li><a href="{% url 'view-stop-type' stop.pk %}">{{ stop.name }}</a></li>{% endfor %}
+        </ul>
+
+    </div>
+</div>
 
 {% include "footer.html" %}

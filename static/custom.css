@@ -59,3 +59,7 @@ a.stop.reed {
     font-size: 1.3em;
     color: white;
 }
+
+.side-list h2:first-child {
+    padding-top: .2em;
+}

@@ -118,10 +118,12 @@ def concerts(request):
 def family(request, family_id):
     the_family = get_object_or_404(StopFamily, pk=family_id)
     description = markdown.markdown(the_family.description)
+    families = list(StopFamily.objects.all())
 
     return render(request, 'family.html', {
         'family': the_family,
         'description': description,
+        'families': families,
     })
 
 

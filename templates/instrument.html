@@ -1,3 +1,4 @@
+{% load l10n %}
 {% include "header.html" %}
 
 <title>{% if instrument.comment %}{{ instrument.comment|capfirst }}, {% endif %}{{ instrument.location.name }}, {{ instrument.location.city.name }} &ndash; Polskie organy piszczałkowe</title>
@@ -101,8 +102,13 @@
             </ul>
         {% endif %}
 
-        {% comment %}<h2>Lokalizacja</h2>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1092.8757068458065!2d17.111243465782252!3d51.10225207889483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1479230037497" width="300" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>{% endcomment %}
+        <h2>Lokalizacja</h2>
+        <div class="embed-responsive embed-responsive-map">
+        <iframe
+            class="embed-responsive-item"
+            src="https://www.google.com/maps/embed/v1/place?q={% if instrument.location.latitude and instrument.location.longitude %}{{ instrument.location.latitude|unlocalize }}%2C{{ instrument.location.longitude|unlocalize }}{% else %}{{ instrument.location.address }}{% endif %}&key=AIzaSyAnSf2yTNcRkacRQkFYYpG32DqrmT9g1Kg"
+            allowfullscreen></iframe>
+        </div>
     </div>
 </div>
 

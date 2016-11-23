@@ -1,0 +1,18 @@
+{% include "header.html" %}
+
+<title>Wykonawcy &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>Wykonawcy</h1>
+
+
+
+<ul class="performers-list">
+    {% for performer in performers %}
+        <li><a href="{% url 'view-performer' performer.pk %}">{{ performer.name }}</a>
+        {% if performer.born or performer.died %}({% if performer.born %}{{ performer.born.year }}{% else %}?{% endif %}&ndash;{% if performer.died %}{{ performer.died }}{% endif %}){% endif %}</li>
+    {% endfor %}
+</ul>
+
+{% include "footer.html" %}

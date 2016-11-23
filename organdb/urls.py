@@ -22,6 +22,7 @@ urlpatterns = [
     # Concerts and performers library
     url(r'^concerts/', views.concerts, name='view-concerts'),
     url(r'^concert/(?P<concert_id>[0-9]+)', views.concert, name='view-concert'),
+    url(r'^performers/', views.performers, name='view-performers'),
     url(r'^performer/(?P<performer_id>[0-9]+)', views.performer, name='view-performer'),
 
 ]

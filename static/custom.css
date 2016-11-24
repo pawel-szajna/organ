@@ -77,3 +77,34 @@ a.stop.reed {
 .embed-responsive-map {
     padding-bottom: 133%;
 }
+
+.enc-cols {
+    margin-top: 1.5em;
+}
+
+@media only screen and (min-width : 320px) {
+    .enc-cols { column-count: 2; }
+}
+
+@media only screen and (min-width : 768px) {
+    .enc-cols { column-count: 3; }
+}
+
+@media only screen and (min-width : 1200px) {
+    .enc-cols { column-count: 4; }
+}
+
+
+.enc-cols h3 {
+    margin: 0 0 0.5em;
+}
+
+.stop-group {
+    -webkit-column-break-inside: avoid;
+    column-break-inside: avoid;
+}
+
+.alist {
+    margin: 0;
+    padding: 0 0 1.5em 1.5em;
+}

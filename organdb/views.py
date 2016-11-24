@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.core.urlresolvers import reverse
+from itertools import groupby
 import markdown
 import datetime
 import re
@@ -172,8 +173,12 @@ def search(request):
 
 
 def stops(request):
-    the_stops = get_list_or_404(StopType)
+    all_stops = list(StopType.objects.order_by('name'))
     the_families = get_list_or_404(StopFamily)
+    the_stops = []
+
+    for key, group in groupby(all_stops, lambda x: x.name[0]):
+        the_stops.append([key, list(group)])
 
     return render(request, 'stops.html', {
         'stops': the_stops,

@@ -1,0 +1,38 @@
+{% include "header.html" %}
+
+<title>Województwo {{ region.name }} &ndash; Polskie organy piszczałkowe</title>
+
+{% include "navigation.html" %}
+
+<h1>Instrumenty &ndash; {{ description }}</h1>
+
+{% if search_form %}
+    (wyszukiwarka)
+{% endif %}
+
+<div class="table-responsive">
+<table class="table table-striped table-condensed instrument-list">
+    <thead>
+    <tr>
+        <th>Miejscowość</th>
+        <th>Instrument</th>
+        <th>Województwo</th>
+        <th>Liczba głosów</th>
+        <th>Klawiatury</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for instrument in instruments %}
+    <tr>
+        <td>{{ instrument.location.city.name }}</td>
+        <td class="instrument-cell"><a href="{% url 'view-instrument' instrument.pk %}">{{ instrument.location.name }}{% if instrument.comment %} ({{ instrument.comment }}){% endif %}</a></td>
+        <td>{{ instrument.location.city.region.name|capfirst }}</td>
+        <td>{{ instrument.stops }}</td>
+        <td>{{ instrument.keyboards }}{% if instrument.pedalboard %}+P{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% include "footer.html" %}

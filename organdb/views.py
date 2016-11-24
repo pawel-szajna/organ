@@ -96,9 +96,12 @@ def concert(request, concert_id):
 
 def region(request, region_id):
     the_region = get_object_or_404(Region, pk=region_id)
+    instruments = get_list_or_404(Instrument, location__city__region__pk=region_id)
 
-    return render(request, 'region.html', {
-        'region': the_region,
+    return render(request, 'results.html', {
+        'description': the_region.name,
+        'instruments': instruments,
+        'search_form': False,
     })
 
 

@@ -49,7 +49,7 @@
 
         {% for keyboard in instrument.keyboard_set.all %}
             {% if forloop.first %}<div class="row">{% endif %}
-        <div class="col-sm-4">
+        <div class="col-sm-{{ column_size }}">
             <h4>{{ keyboard.name }}</h4>
             <p>
                 {% for stop in keyboard.stop_set.all %}
@@ -59,7 +59,7 @@
                 {% endfor %}
             </p>
         </div>
-        {% if forloop.counter|divisibleby:3 and not forloop.last %}</div><div class="row">{% endif %}
+        {% if forloop.counter|divisibleby:column_count and not forloop.last %}</div><div class="row">{% endif %}
         {% if forloop.last %}</div>{% endif %}
         {% empty %}
             <p>Brak informacji o dyspozycji instrumentu.</p>

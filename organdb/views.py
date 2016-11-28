@@ -8,10 +8,15 @@ import re
 from .models import *
 
 
-# Helper function to enable easy linking
-
 def linkify(markdown, target_view, target_class):
+    """
+    Enables wikipedia-style linking.
 
+    :param markdown: input markdown text
+    :param target_view: URL name for link target
+    :param target_class: model for link target (searching by name field)
+    :return: markdown with generated links
+    """
     def generate_link(matchobj):
         stop_name = matchobj.group(0)[2:-2]
         try:
@@ -20,6 +25,24 @@ def linkify(markdown, target_view, target_class):
             return stop_name
 
     return re.sub(r'\[\[(.*?)\]\]', generate_link, markdown)
+
+
+def instruments(request, description, instruments, search_form):
+    """
+    A list of instruments, usually used for search results. Responsible for sorting the data.
+
+    :param request: the request
+    :param description: a title for the page
+    :param instruments: a QuerySet of instruments to include
+    :param search_form: whether a search form should be included
+    :return:
+    """
+
+    return render(request, 'results.html', {
+        'description': description,
+        'search_form': search_form,
+        'instruments': instruments,
+    })
 
 
 # The views
@@ -96,13 +119,9 @@ def concert(request, concert_id):
 
 def region(request, region_id):
     the_region = get_object_or_404(Region, pk=region_id)
-    instruments = get_list_or_404(Instrument, location__city__region__pk=region_id)
+    instrs = Instrument.objects.filter(location__city__region=the_region)
 
-    return render(request, 'results.html', {
-        'description': the_region.name,
-        'instruments': instruments,
-        'search_form': False,
-    })
+    return instruments(request, the_region.name, instrs, False)
 
 
 def browse(request):

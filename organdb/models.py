@@ -47,8 +47,8 @@ class Location(models.Model):
                                     verbose_name='długość geograficzna')
 
     class Meta:
-        verbose_name = 'lokacja'
-        verbose_name_plural = 'lokacje'
+        verbose_name = 'lokalizacja'
+        verbose_name_plural = 'lokalizacje'
         ordering = ['city', 'name']
 
     def __str__(self):
@@ -88,7 +88,7 @@ class Instrument(models.Model):
     build_date = models.DateField(blank=True, null=True, verbose_name='data budowy')
     comment = models.CharField(max_length=80, blank=True, null=True, verbose_name='komentarz',
                                help_text='Wykorzystywany do rozróżnienia kilku instrumentów znajudjących się '
-                                         'w tej samej lokacji.')
+                                         'w tej samej lokalizacji.')
     key_action = models.CharField(max_length=20, choices=ACTION_CHOICES, verbose_name='traktura gry')
     stop_action = models.CharField(max_length=20, choices=ACTION_CHOICES, verbose_name='traktura rejestrów')
     stops = models.IntegerField(verbose_name='głosy',
@@ -100,7 +100,7 @@ class Instrument(models.Model):
     additional_features = models.TextField(blank=True, null=True, verbose_name='dodatkowe urządzenia',
                                            help_text='Opis dodatkowych urządzeń (wolne kombinacje, połączenia itp.).')
     builder = models.ForeignKey(Builder, blank=True, null=True, verbose_name='budowniczy')
-    location = models.ForeignKey(Location, verbose_name='lokacja')
+    location = models.ForeignKey(Location, verbose_name='lokalizacji')
 
     class Meta:
         verbose_name = 'instrument'

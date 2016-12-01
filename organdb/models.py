@@ -69,6 +69,7 @@ class Builder(models.Model):
     class Meta:
         verbose_name = 'organmistrz'
         verbose_name_plural = 'organmistrzowie'
+        ordering = ['name', 'first_name']
 
     def __str__(self):
         return self.name
@@ -87,7 +88,7 @@ class Instrument(models.Model):
         ('elektro-magnetyczna', 'elektro-magnetyczna'),
     )
 
-    build_date = models.DateField(blank=True, null=True, verbose_name='data budowy')
+    build_date = models.IntegerField(blank=True, null=True, verbose_name='rok budowy')
     comment = models.CharField(max_length=80, blank=True, null=True, verbose_name='komentarz',
                                help_text='Wykorzystywany do rozróżnienia kilku instrumentów znajudjących się '
                                          'w tej samej lokalizacji.')
@@ -271,6 +272,7 @@ class Performer(models.Model):
     class Meta:
         verbose_name = 'wykonawca'
         verbose_name_plural = 'wykonawcy'
+        ordering = ['name', 'first_name']
 
     def __str__(self):
         return self.name

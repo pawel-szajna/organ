@@ -85,7 +85,7 @@ class Instrument(models.Model):
         ('mechaniczna', 'mechaniczna'),
         ('pneumatyczna', 'pneumatyczna'),
         ('elektro-pneumatyczna', 'elektro-pneumatyczna'),
-        ('elektro-magnetyczna', 'elektro-magnetyczna'),
+        ('elektryczna', 'elektryczna'),
     )
 
     build_date = models.IntegerField(blank=True, null=True, verbose_name='rok budowy')

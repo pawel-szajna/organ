@@ -1,0 +1,6 @@
+Django
+Pillow
+Markdown
+django-htmlmin
+django-markdown-app
+django-nested-admin

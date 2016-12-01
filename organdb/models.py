@@ -60,7 +60,8 @@ class Builder(models.Model):
     An organ builder who can be either set as a specific instrument's builder or as the person responsible for
     some work done on an instrument.
     """
-    name = models.CharField(max_length=40, verbose_name='imię i nazwisko')
+    name = models.CharField(max_length=40, verbose_name='nazwisko')
+    first_name = models.CharField(blank=True, null=True, max_length=40, verbose_name='imię')
     biography = MarkdownField(verbose_name='biografia')
     born = models.DateField(blank=True, null=True, verbose_name='data urodzenia')
     died = models.DateField(blank=True, null=True, verbose_name='data śmierci')
@@ -83,6 +84,7 @@ class Instrument(models.Model):
         ('mechaniczna', 'mechaniczna'),
         ('pneumatyczna', 'pneumatyczna'),
         ('elektro-pneumatyczna', 'elektro-pneumatyczna'),
+        ('elektro-magnetyczna', 'elektro-magnetyczna'),
     )
 
     build_date = models.DateField(blank=True, null=True, verbose_name='data budowy')
@@ -259,7 +261,8 @@ class Performer(models.Model):
     """
     A performer can perform recordings or perform during concerts.
     """
-    name = models.CharField(max_length=40, verbose_name='imię i nazwisko')
+    name = models.CharField(max_length=40, verbose_name='nazwisko')
+    first_name = models.CharField(blank=True, null=True, max_length=40, verbose_name='imię')
     born = models.DateField(blank=True, null=True, verbose_name='data urodzenia')
     died = models.DateField(blank=True, null=True, verbose_name='data śmierci')
     biography = MarkdownField(verbose_name='biografia')

@@ -138,7 +138,7 @@ class Keyboard(models.Model):
     class Meta:
         verbose_name = 'klawiatura'
         verbose_name_plural = 'klawiatury'
-        ordering = ['instrument', 'order']
+        ordering = ['order']
 
     def __str__(self):
         return '{} ({}, {})'.format(self.name, self.instrument.location.name,
@@ -206,7 +206,7 @@ class Stop(models.Model):
     class Meta:
         verbose_name = 'głos'
         verbose_name_plural = 'głosy'
-        ordering = ['keyboard', 'number']
+        ordering = ['number']
 
     def __str__(self):
         return '{}, {} - {} - {}. {} {}\''.format(self.keyboard.instrument.location.name,

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from itertools import groupby
 import markdown
 import datetime
@@ -60,7 +61,14 @@ def index(request):
 
 
 def instrument(request, instrument_id):
-    the_instrument = get_object_or_404(Instrument, pk=instrument_id)
+    try:
+        the_instrument = Instrument.objects\
+            .select_related('builder', 'location', 'location__city', 'location__city__region')\
+            .prefetch_related('keyboard_set', 'keyboard_set__stop_set', 'recording_set', 'recording_set__performer')\
+            .get(pk=instrument_id)
+    except Instrument.DoesNotExist:
+        raise Http404()
+
     description = markdown.markdown(the_instrument.description)
     additional = markdown.markdown(the_instrument.additional_features.replace('\n', '\n\n'))
     concerts = list(Concert.objects.filter(instrument=instrument_id, date__gte=datetime.datetime.now()))
@@ -80,7 +88,7 @@ def instrument(request, instrument_id):
 def stop_type(request, stop_type_id):
     the_stop_type = get_object_or_404(StopType, pk=stop_type_id)
     description = markdown.markdown(linkify(the_stop_type.description, 'view-stop-type', StopType))
-    examples = list(Stop.objects.filter(type=the_stop_type.pk).order_by('?')[:6])
+    examples = list(Stop.objects.select_related('keyboard__instrument__location__city').filter(type=the_stop_type.pk).order_by('?')[:6])
 
     return render(request, 'stop.html', {
         'stop_type': the_stop_type,

@@ -5,6 +5,7 @@ SECRET_KEY = 's280_=ns2n-jb1x2#^rsg^b3rom065f6qh8+$i4c)dui=_-_me'
 DEBUG = True
 ALLOWED_HOSTS = []
 HTML_MINIFY = not DEBUG
+INTERNAL_IPS = ('127.0.0.1')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -16,6 +17,7 @@ INSTALLED_APPS = [
 
     'nested_admin',
     'django_markdown',
+    'debug_toolbar',
 
     'organdb',
 ]
@@ -31,6 +33,7 @@ MIDDLEWARE = [
 
     'htmlmin.middleware.HtmlMinifyMiddleware',
     'htmlmin.middleware.MarkRequestMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'organ.urls'

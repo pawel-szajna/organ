@@ -1,10 +1,10 @@
 {% include "header.html" %}
 
-<title>{{ performer.name }} &ndash; Polskie organy piszczałkowe</title>
+<title>{% if performer.first_name %}{{ performer.first_name }} {% endif %}{{ performer.name }} &ndash; Polskie organy piszczałkowe</title>
 
 {% include "navigation.html" %}
 
-<h1>{{ performer.name }}</h1>
+<h1>{% if performer.first_name %}{{ performer.first_name }} {% endif %}{{ performer.name }}</h1>
 
 <dl class="dl-horizontal">
     {% if performer.born %}

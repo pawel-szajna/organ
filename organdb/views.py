@@ -108,7 +108,11 @@ def performer(request, performer_id):
 
 
 def performers(request):
-    the_performers = get_list_or_404(Performer)
+    all_performers = get_list_or_404(Performer)
+    the_performers = []
+
+    for key, group in groupby(all_performers, lambda x: x.name[0]):
+        the_performers.append([key, list(group)])
 
     return render(request, 'performers.html', {
         'performers': the_performers,

@@ -93,8 +93,8 @@ class StopFamilyAdmin(admin.ModelAdmin):
 
 @admin.register(Performer)
 class PerformerAdmin(admin.ModelAdmin):
-    list_display = ['name', 'concert_count', 'recording_count']
-    search_fields = ['name', 'biography']
+    list_display = ['name', 'first_name', 'concert_count', 'recording_count']
+    search_fields = ['name', 'first_name', 'biography']
 
 
 @admin.register(Concert)

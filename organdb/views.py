@@ -183,7 +183,7 @@ def family(request, family_id):
     description = markdown.markdown(linkify(the_family.description, 'view-family', StopFamily))
     families = list(StopFamily.objects.all())
 
-    if the_family.stoptype_set.count() > 5:
+    if the_family.stoptype_set.count() > 7:
         stops = []
         for key, group in groupby(list(the_family.stoptype_set.all()), lambda x: x.name[0]):
             stops.append([key, list(group)])

@@ -1,42 +1,49 @@
 {% include "header.html" %}
 
-<title>{{ builder.name }} &ndash; Polskie organy piszczałkowe</title>
+<title>{% if builder.first_name %}{{ builder.first_name }} {% endif %}{{ builder.name }} &ndash; Polskie organy piszczałkowe</title>
 
 {% include "navigation.html" %}
 
-<h1>{{ builder.name }}</h1>
+<div class="row">
+    <div class="col-md-6">
+        <h1>{% if builder.first_name %}{{ builder.first_name }} {% endif %}{{ builder.name }}</h1>
 
-<dl class="dl-horizontal">
-    {% if builder.born %}
-    <dt>Data urodzenia</dt>
-    <dd>{{ builder.born }}</dd>
-    {% endif %}
-    {% if builder.died %}
-    <dt>Data śmierci</dt>
-    <dd>{{ builder.died }}</dd>
-    {% endif %}
-</dl>
+        <dl class="dl-horizontal">
+            {% if builder.born %}
+            <dt>Data urodzenia</dt>
+            <dd>{{ builder.born }}</dd>
+            {% endif %}
+            {% if builder.died %}
+            <dt>Data śmierci</dt>
+            <dd>{{ builder.died }}</dd>
+            {% endif %}
+        </dl>
 
-{{ biography|safe }}
+        {{ biography|safe }}
+    </div>
 
-<h2>Instrumenty wybudowane przez organmistrza</h2>
+    <div class="col-md-3">
+        <h2>Instrumenty</h2>
 
-<ul class="instruments">
-{% for instrument in builder.instrument_set.all %}
-    <li><a href="{% url 'view-instrument' instrument.pk %}">{{ instrument.location.city.name }}, {{ instrument.location.name }}</a></li>
-{% empty %}
-    <p>Brak danych o instrumentach wybudowanych przez tego organmistrza.</p>
-{% endfor %}
-</ul>
+        {% for instrument in builder.instrument_set.all %}
+            {% if forloop.first %}<ul class="instruments">{% endif %}
+            <li><a href="{% url 'view-instrument' instrument.pk %}">{{ instrument.location.city.name }}, {{ instrument.location.name }}</a></li>
+            {% if forloop.last %}</ul>{% endif %}
+        {% empty %}
+            <p>Brak danych o instrumentach wybudowanych przez tego organmistrza.</p>
+        {% endfor %}
+    </div>
 
-<h2>Prace prowadzone przez organmistrza</h2>
+    <div class="col-md-3">
+        <h2>Prowadzone prace</h2>
 
-<ul class="works">
-{% for work in builder.work_set.all %}
-    <li><a href="{% url 'view-work' work.pk %}">{{ work.type|capfirst }}</a>, {% if work.instrument.comment %}{{ work.instrument.comment }}{% endif %}{{ work.instrument.location.name }}, {{ work.instrument.location.city.name }}, {{ work.year }}</li>
-{% empty %}
-    <p>Brak danych o pracach prowadzonych przez tego organmistrza.</p>
-{% endfor %}
-</ul>
-
+        {% for work in builder.work_set.all %}
+            {% if forloop.first %}<ul class="works">{% endif %}
+            <li><a href="{% url 'view-work' work.pk %}">{{ work.type|capfirst }}</a>, {% if work.instrument.comment %}{{ work.instrument.comment }}{% endif %}{{ work.instrument.location.name }}, {{ work.instrument.location.city.name }}, {{ work.year }}</li>
+            {% if forloop.last %}</ul>{% endif %}
+        {% empty %}
+            <p>Brak danych o pracach prowadzonych przez tego organmistrza.</p>
+        {% endfor %}
+    </div>
+</div>
 {% include "footer.html" %}

@@ -99,7 +99,7 @@ a.stop.reed {
     margin: 0 0 0.5em;
 }
 
-.stop-group {
+.letter-group {
     -webkit-column-break-inside: avoid;
     column-break-inside: avoid;
 }

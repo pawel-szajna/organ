@@ -6,10 +6,16 @@
 
 <h1>Organmistrzowie</h1>
 
-<ul class="builders-list">
+<div class="enc-cols">
+{% for group, builders in builders %}
+    <div class="letter-group">
+    <h3>{{ group }}</h3>
+    <ul class="alist builders-list">
     {% for builder in builders %}
-        <li><a href="{% url 'view-builder' builder.pk %}">{{ builder.name }}</a></li>
+        <li><a href="{% url 'view-builder' builder.pk %}">{{ builder.name }}{% if builder.first_name %}, {{ builder.first_name }}{% endif %}</a></li>
     {% endfor %}
-</ul>
-
+    </ul>
+    </div>
+{% endfor %}
+</div>
 {% include "footer.html" %}

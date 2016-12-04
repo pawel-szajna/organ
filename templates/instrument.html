@@ -41,7 +41,7 @@
 
             {% if instrument.builder %}
             <dt>Budowniczy</dt>
-            <dd><a href="{% url 'view-builder' instrument.builder.pk %}">{{ instrument.builder.name }}</a></dd>
+            <dd><a href="{% url 'view-builder' instrument.builder.pk %}">{% if instrument.builder.first_name %}{{ instrument.builder.first_name }} {% endif %}{{ instrument.builder.name }}</a></dd>
             {% endif %}
         </dl>
 

@@ -66,8 +66,9 @@ class LocationAdmin(admin.ModelAdmin):
 
 @admin.register(Builder)
 class BuilderAdmin(admin.ModelAdmin):
-    list_display = ['name']
-    search_fields = ['name', 'biography']
+    list_display = ['name', 'first_name']
+    list_display_links = ['name', 'first_name']
+    search_fields = ['name', 'first_name', 'biography']
 
 
 class SampleInline(admin.TabularInline):

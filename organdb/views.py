@@ -153,7 +153,11 @@ def builder(request, builder_id):
 
 
 def builders(request):
-    the_builders = get_list_or_404(Builder)
+    all_builders = list(Builder.objects.all())
+    the_builders = []
+
+    for key, group in groupby(all_builders, lambda x: x.name[0]):
+        the_builders.append([key, list(group)])
 
     return render(request, 'builders.html', {
         'builders': the_builders,
@@ -203,7 +207,7 @@ def search(request):
 
 
 def stops(request):
-    all_stops = list(StopType.objects.order_by('name'))
+    all_stops = list(StopType.objects.all())
     the_families = get_list_or_404(StopFamily)
     the_stops = []
 

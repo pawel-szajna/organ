@@ -1,6 +1,6 @@
 {% include "header.html" %}
 
-<title>Encyklopedia głosów &ndash; Polskie organy piszczałkowe</title>
+<title>{% if family %}{{ family.name }}{% else %}Encyklopedia głosów{% endif %} &ndash; Polskie organy piszczałkowe</title>
 
 {% include "navigation.html" %}
 
@@ -8,11 +8,14 @@
     <div class="col-md-3 side-list">
         <h2>Rodziny głosów</h2>
         <ul>
-            {% for family in families %}<li><a href="{%  url 'view-family' family.pk %}">{{ family.name }}</a></li>{% endfor %}
+            <li>{% if family %}<a href="{% url 'view-stops' %}">Wszystkie</a>{% else %}<strong>Wszystkie</strong>{% endif %}</li>
+            {% for afamily in families %}<li>{% if afamily.pk == family.pk %}<strong>{{ afamily.name }}</strong>{% else %}<a href="{%  url 'view-family' afamily.pk %}">{{ afamily.name }}</a>{% endif %}</li>{% endfor %}
         </ul>
     </div>
     <div class="col-md-9">
-        <h1>Encyklopedia głosów organowych</h1>
+        <h1>{% if family %}{{ family.name }}{% else %}Encyklopedia głosów organowych{% endif %}</h1>
+        {% if family %}{{ description|safe }}{% endif %}
+        {% if stops %}
         <div class="enc-cols">
         {% for group, stops in stops %}
             <div class="stop-group">
@@ -25,6 +28,12 @@
             </div>
         {% endfor %}
         </div>
+        {% else %}
+        <ul>
+            {% for stop in family.stoptype_set.all %}<li><a href="{% url 'view-stop-type' stop.pk %}">{{ stop.name }}</a></li>{% endfor %}
+        </ul>
+        {% endif %}
+
     </div>
 </div>
 

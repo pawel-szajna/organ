@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'nested_admin',
     'django_markdown',
     'debug_toolbar',
+    'django_forms_bootstrap',
 
     'organdb',
 ]

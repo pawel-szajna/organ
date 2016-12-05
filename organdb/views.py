@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.views.decorators.cache import cache_page
 from django.core.urlresolvers import reverse
 from django.http import Http404
 from itertools import groupby
@@ -36,7 +37,7 @@ def instruments(request, description, instruments, search_form, message = None):
     :param request: the request
     :param description: a title for the page
     :param instruments: a QuerySet of instruments to include
-    :param search_form: whether a search form should be included
+    :param search_form: a search form or False if no form is to be displayed
     :return:
     """
     orderings = {
@@ -49,12 +50,6 @@ def instruments(request, description, instruments, search_form, message = None):
 
     if request.GET.get('o') in orderings:
         instruments = instruments.order_by(orderings[request.GET.get('o')])
-
-    if search_form:
-        if request.method == 'POST':
-            search_form = SearchForm(request.POST)
-        else:
-            search_form = SearchForm()
 
     return render(request, 'results.html', {
         'description': description,
@@ -78,6 +73,7 @@ def index(request):
     })
 
 
+@cache_page(60 * 60)
 def instrument(request, instrument_id):
     try:
         the_instrument = Instrument.objects\
@@ -153,9 +149,10 @@ def region(request, region_id):
     the_region = get_object_or_404(Region, pk=region_id)
     instrs = Instrument.objects.filter(location__city__region=the_region)
 
-    return instruments(request, the_region.name, instrs, False)
+    return instruments(request, "województwo {}".format(the_region.name), instrs, False)
 
 
+@cache_page(7 * 24 * 60 * 60)
 def browse(request):
     regions = get_list_or_404(Region)
 
@@ -234,15 +231,6 @@ def family(request, family_id):
     })
 
 
-def search(request):
-    if request.method == 'POST':
-        pass
-    else:
-        instrs = False
-
-    return instruments(request, 'wyszukiwanie', instrs, form)
-
-
 def stops(request):
     all_stops = list(StopType.objects.all())
     the_families = get_list_or_404(StopFamily)
@@ -255,3 +243,57 @@ def stops(request):
         'stops': the_stops,
         'families': the_families,
     })
+
+
+def search(request):
+    message = None
+
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            instrs = Instrument.objects
+
+            city = form.cleaned_data['city']
+            location = form.cleaned_data['location']
+            keyboards = form.cleaned_data['keyboards']
+            pedalboard = form.cleaned_data['pedalboard']
+            stops_min = form.cleaned_data['stops_min']
+            stops_max = form.cleaned_data['stops_max']
+            key_action = form.cleaned_data['key_action']
+            stop_action = form.cleaned_data['stop_action']
+
+            if not (city or location or keyboards or pedalboard != 'b' or stops_min or stops_max
+                    or key_action != 'b' or stop_action != 'b'):
+                instrs = False
+                message = 'Proszę wypełnić przynajmniej jedno kryterium wyszukiwania.'
+            else:
+                if city:
+                    instrs = instrs.filter(location__city__name__icontains=city)
+                if location:
+                    instrs = instrs.filter(location__name__icontains=location)
+                if keyboards:
+                    instrs = instrs.filter(keyboards=keyboards)
+                if pedalboard != 'b':
+                    instrs = instrs.filter(pedalboard=(pedalboard == 'y'))
+                if stops_min:
+                    instrs = instrs.filter(stops__gte=stops_min)
+                if stops_max:
+                    instrs = instrs.filter(stops__lte=stops_max)
+                if key_action != 'b':
+                    instrs = instrs.filter(key_action=key_action)
+                if stop_action != 'b':
+                    instrs = instrs.filter(stop_action=stop_action)
+
+                if instrs.count() == 0:
+                    message = 'Nie znaleziono instrumentów dla wybranych kryteriów.'
+                    instrs = False
+
+        else:
+            message = 'Proszę poprawić błędy w formularzu.'
+            instrs = False
+
+    else:
+        form = SearchForm(initial={'pedalboard': 'b'})
+        instrs = False
+
+    return instruments(request, 'wyszukiwanie', instrs, form, message)

@@ -1,6 +1,6 @@
 {% include "header.html" %}
 
-<title>Województwo {{ region.name }} &ndash; Polskie organy piszczałkowe</title>
+<title>{{ description|capfirst }} &ndash; Polskie organy piszczałkowe</title>
 
 {% include "navigation.html" %}
 
@@ -11,9 +11,10 @@
 {% endif %}
 
 {% if search_form %}
+{% load bootstrap_tags %}
 <form class="form-horizontal" method="post" action="/search/">
     {% csrf_token %}
-    {{ search_form }}
+    {{ search_form|as_bootstrap_horizontal }}
     <input type="submit" class="btn btn-primary" value="Wyszukaj">
 </form>
 {% endif %}

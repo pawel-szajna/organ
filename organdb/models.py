@@ -81,12 +81,12 @@ class Instrument(models.Model):
     such as build date, action, number of keyboards etc. A comment field is provided for the option to differentiate
     several instruments in the same location.
     """
-    ACTION_CHOICES = (
+    ACTION_CHOICES = [
         ('mechaniczna', 'mechaniczna'),
         ('pneumatyczna', 'pneumatyczna'),
         ('elektro-pneumatyczna', 'elektro-pneumatyczna'),
         ('elektryczna', 'elektryczna'),
-    )
+    ]
 
     build_date = models.IntegerField(blank=True, null=True, verbose_name='rok budowy')
     comment = models.CharField(max_length=80, blank=True, null=True, verbose_name='komentarz',

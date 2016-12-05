@@ -89,6 +89,7 @@ def instrument(request, instrument_id):
 
     description = markdown.markdown(the_instrument.description)
     additional = markdown.markdown(the_instrument.additional_features.replace('\n', '\n\n'))
+    works = list(Work.objects.prefetch_related('builder').order_by('-year').filter(instrument=instrument_id))
     concerts = list(Concert.objects.filter(instrument=instrument_id, date__gte=datetime.datetime.now()))
     column_count = 4 if the_instrument.keyboards == 3 and the_instrument.pedalboard else 3
     column_size = 3 if column_count == 4 else 4
@@ -100,6 +101,7 @@ def instrument(request, instrument_id):
         'additional': additional,
         'column_count': column_count,
         'column_size': column_size,
+        'works': works,
     })
 
 

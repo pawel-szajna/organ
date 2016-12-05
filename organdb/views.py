@@ -61,6 +61,7 @@ def instruments(request, description, instruments, search_form, message = None):
 
 # The views
 
+@cache_page(60)
 def index(request):
     instruments = list(Instrument.objects.order_by('-pk')[:6])
     concerts = list(Concert.objects.filter(date__gte=datetime.datetime.now())[:6])
@@ -101,6 +102,7 @@ def instrument(request, instrument_id):
     })
 
 
+@cache_page(60 * 60)
 def stop_type(request, stop_type_id):
     the_stop_type = get_object_or_404(StopType, pk=stop_type_id)
     description = markdown.markdown(linkify(the_stop_type.description, 'view-stop-type', StopType))
@@ -113,6 +115,7 @@ def stop_type(request, stop_type_id):
     })
 
 
+@cache_page(60 * 60)
 def performer(request, performer_id):
     the_performer = get_object_or_404(Performer, pk=performer_id)
     biography = markdown.markdown(the_performer.biography)
@@ -123,6 +126,7 @@ def performer(request, performer_id):
     })
 
 
+@cache_page(60)
 def performers(request):
     all_performers = get_list_or_404(Performer)
     the_performers = []
@@ -135,6 +139,7 @@ def performers(request):
     })
 
 
+@cache_page(60 * 60)
 def concert(request, concert_id):
     the_concert = get_object_or_404(Concert, pk=concert_id)
     description = markdown.markdown(the_concert.description)
@@ -145,6 +150,7 @@ def concert(request, concert_id):
     })
 
 
+@cache_page(60)
 def region(request, region_id):
     the_region = get_object_or_404(Region, pk=region_id)
     instrs = Instrument.objects.filter(location__city__region=the_region)
@@ -161,6 +167,7 @@ def browse(request):
     })
 
 
+@cache_page(24 * 60 * 60)
 def work(request, work_id):
     the_work = get_object_or_404(Work, pk=work_id)
     description = markdown.markdown(the_work.description)
@@ -171,6 +178,7 @@ def work(request, work_id):
     })
 
 
+@cache_page(60 * 60)
 def builder(request, builder_id):
     the_builder = get_object_or_404(Builder, pk=builder_id)
     biography = markdown.markdown(the_builder.biography)
@@ -181,6 +189,7 @@ def builder(request, builder_id):
     })
 
 
+@cache_page(60)
 def builders(request):
     all_builders = list(Builder.objects.all())
     the_builders = []
@@ -193,6 +202,7 @@ def builders(request):
     })
 
 
+@cache_page(60)
 def concerts(request):
     regions = list(Region.objects.all())
     the_concerts = list()
@@ -211,6 +221,7 @@ def concerts(request):
     })
 
 
+@cache_page(60)
 def family(request, family_id):
     the_family = get_object_or_404(StopFamily, pk=family_id)
     description = markdown.markdown(linkify(the_family.description, 'view-family', StopFamily))
@@ -231,6 +242,7 @@ def family(request, family_id):
     })
 
 
+@cache_page(60)
 def stops(request):
     all_stops = list(StopType.objects.all())
     the_families = get_list_or_404(StopFamily)
@@ -245,6 +257,7 @@ def stops(request):
     })
 
 
+@cache_page(60 * 60)
 def search(request):
     message = None
 

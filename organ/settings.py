@@ -80,6 +80,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+if DEBUG:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache'
+        }
+    }
+
 # Internationalization
 LANGUAGE_CODE = 'pl-pl'
 TIME_ZONE = 'UTC'

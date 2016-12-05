@@ -90,7 +90,12 @@
     <div class="col-md-4">
         {% for photo in instrument.photo_set.all %}
             {% if forloop.first %}<h2>Fotografie</h2>{% endif %}
-            <p><img class="img-responsive" src="{{ MEDIA_URL }}{{ photo.file.url }}" alt="{{ photo.description }}" title="{{ photo.description }}"></p>
+            <div class="instrument-photo">
+                <img src="{{ MEDIA_URL }}{{ photo.file.url }}" alt="{{ photo.description }}" title="{{ photo.description }}">
+                <div class="caption">
+                    {{ photo.description }}
+                </div>
+            </div>
         {% endfor %}
 
         {% if instrument.comment %}

@@ -79,3 +79,35 @@ a.stop.reed {
     border-width: 0;
 }
 
+.instrument-photo {
+    overflow: hidden;
+    position: relative;
+    margin: 0 0 1em;
+}
+
+.caption {
+    position: absolute;
+    opacity: 0;
+    background-color: rgba(0,0,0,0.75);
+    color: white;
+    bottom: -3em;
+    padding: .5em 0;
+    text-align: center;
+    font-size: 1.1em;
+    width: 100%;
+
+    -webkit-transition:all 0.15s ease-in-out;
+	-moz-transition:all 0.15s ease-in-out;
+	-o-transition:all 0.15s ease-in-out;
+	-ms-transition:all 0.15s ease-in-out;
+	transition:all 0.15s ease-in-out;
+}
+
+.instrument-photo img {
+    width: 100%;
+}
+
+.instrument-photo:hover .caption {
+    bottom: 0;
+    opacity: 1;
+}

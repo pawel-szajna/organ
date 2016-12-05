@@ -1,3 +1,4 @@
+{% load l10n %}
 {% include "header.html" %}
 
 <title>{{ concert.name }}, {{ concert.date }} &ndash; Koncert &ndash; Polskie organy piszczałkowe</title>
@@ -28,14 +29,20 @@
 
         {% for performer in concert.performers.all %}
             {% if forloop.first %}<ul class="performers">{% endif %}
-            <li><a href="{% url 'view-performer' performer.pk %}">{{ performer.name }}</a></li>
+            <li><a href="{% url 'view-performer' performer.pk %}">{% if performer.first_name %}{{ performer.first_name }} {% endif %}{{ performer.name }}</a></li>
             {% if forloop.last %}</ul>{% endif %}
         {% empty %}
             <p>Brak informacji o wykonawcach podczas tego koncertu.</p>
         {% endfor %}
     </div>
     <div class="col-md-4">
-        <p>(mapa google)</p>
+        <div class="embed-responsive embed-responsive-map">
+        <iframe
+            class="embed-responsive-item"
+            src="https://www.google.com/maps/embed/v1/place?q={% if concert.instrument.location.latitude and concert.instrument.location.longitude %}{{ concert.instrument.location.latitude|unlocalize }}%2C{{ concert.instrument.location.longitude|unlocalize }}{% else %}{{ concert.instrument.location.address }}{% endif %}&key=AIzaSyAnSf2yTNcRkacRQkFYYpG32DqrmT9g1Kg"
+            allowfullscreen></iframe>
+        </div>
+
         <h2>Instrument</h2>
         <dl class="dl-horizontal">
             <dt>Liczba głosów</dt>

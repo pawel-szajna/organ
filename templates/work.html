@@ -11,7 +11,7 @@
     <dd><a href="{% url 'view-instrument' work.instrument.pk %}">{% if work.instrument.comment %}{{ work.instrument.comment }}{% endif %}{{ work.instrument.location.name }}, {{ work.instrument.location.city.name }}</a></dd>
 
     <dt>Organmistrz</dt>
-    <dd><a href="{% url 'view-builder' work.builder.pk %}">{{ work.builder }}</a></dd>
+    <dd><a href="{% url 'view-builder' work.builder.pk %}">{% if work.builder.first_name %}{{ work.builder.first_name }} {% endif %}{{ work.builder.name }}</a></dd>
 
     <dt>Data</dt>
     <dd>{{ work.year }}</dd>

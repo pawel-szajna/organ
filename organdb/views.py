@@ -7,6 +7,7 @@ import datetime
 import re
 
 from .models import *
+from .forms import *
 
 
 def linkify(markdown, target_view, target_class):
@@ -28,7 +29,7 @@ def linkify(markdown, target_view, target_class):
     return re.sub(r'\[\[(.*?)\]\]', generate_link, markdown)
 
 
-def instruments(request, description, instruments, search_form):
+def instruments(request, description, instruments, search_form, message = None):
     """
     A list of instruments, usually used for search results. Responsible for sorting the data.
 
@@ -38,11 +39,28 @@ def instruments(request, description, instruments, search_form):
     :param search_form: whether a search form should be included
     :return:
     """
+    orderings = {
+        'c': 'location__city__name',
+        'l': 'location__name',
+        'r': 'location__city__region__name',
+        's': '-stops',
+        'k': 'keyboards',
+    }
+
+    if request.GET.get('o') in orderings:
+        instruments = instruments.order_by(orderings[request.GET.get('o')])
+
+    if search_form:
+        if request.method == 'POST':
+            search_form = SearchForm(request.POST)
+        else:
+            search_form = SearchForm()
 
     return render(request, 'results.html', {
         'description': description,
         'search_form': search_form,
         'instruments': instruments,
+        'message': message,
     })
 
 
@@ -215,7 +233,12 @@ def family(request, family_id):
 
 
 def search(request):
-    return render(request, 'search.html', {})
+    if request.method == 'POST':
+        pass
+    else:
+        instrs = False
+
+    return instruments(request, 'wyszukiwanie', instrs, form)
 
 
 def stops(request):

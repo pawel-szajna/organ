@@ -75,7 +75,7 @@
 
         {% for work in instrument.work_set.all %}
             {% if forloop.first %}<h2>Prace przy instrumencie</h2><ul class="works">{% endif %}
-                <li><a href="{% url 'view-work' work.pk %}">{{ work.type|capfirst }}</a>, {{ work.builder.name }}, {{ work.year }}</li>
+                <li><a href="{% url 'view-work' work.pk %}">{{ work.type|capfirst }}</a>, {% if work.builder.first_name %}{{ work.builder.first_name }} {% endif %}{{ work.builder.name }}, {{ work.year }}</li>
             {% if forloop.last %}</ul>{% endif %}
         {% endfor %}
 

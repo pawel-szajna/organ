@@ -20,58 +20,8 @@ a.stop.reed {
     margin-top: 0;
 }
 
-.homepage {
-    background: url(/static/home_2.jpg) center no-repeat fixed;
-    background-size: cover;
-    text-shadow: 2px 2px 3px black;
-    color: white !important;
-}
-
-.homepage .navbar {
-    background: none;
-    border: none;
-}
-
-.homepage .navbar a {
-    color: white !important;
-    text-shadow: 1px 1px 2px black;
-}
-
-.homepage .navbar li:hover, .homepage .navbar li.dropdown.open {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.homepage .jumbotron {
-    border: none;
-    background: none;
-    box-shadow: none;
-}
-
-.homepage h2 {
-    color: white;
-}
-
-.homepage .btn {
-    text-shadow: none;
-}
-
-.homelist a {
-    font-size: 1.3em;
-    color: white;
-}
-
 .side-list h2:first-child {
     padding-top: .2em;
-}
-
-.homepage .collapse.in, .homepage .collapsing {
-    background: rgba(255, 255, 255, 0.2);
-    border-bottom: 1px white solid;
-}
-
-.homepage .dropdown-menu {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .embed-responsive-map {
@@ -94,7 +44,6 @@ a.stop.reed {
     .enc-cols { column-count: 4; }
 }
 
-
 .enc-cols h3 {
     margin: 0 0 0.5em;
 }
@@ -113,3 +62,20 @@ a.stop.reed {
     font-size: 1.1em;
     font-weight: bold;
 }
+
+.instrument-list th a {
+    text-decoration: none;
+    color: black;
+}
+
+.homepage .jumbotron {
+    background: url(/static/home.jpg) center;
+    background-size: cover;
+    padding-top: 420px;
+    padding-bottom: 60px;
+    color: white;
+    text-shadow: 2px 2px black, -2px -2px black, -2px 2px black, 2px -2px black;
+    box-shadow: 1px 1px 3px black;
+    border-width: 0;
+}
+

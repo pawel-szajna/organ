@@ -23,6 +23,12 @@
 <h2>Próbki dźwiękowe</h2>
 
 {% for sample in stop_type.sample_set.all %}
+    {% if forloop.first %}<ul class="sound-samples">{% endif %}
+    <li>
+        <a href="{{ MEDIA_URL }}{{ sample.file.url }}">{{ sample.description }}</a><br>
+        <audio src="{{ MEDIA_URL }}{{ sample.file.url }}" controls></audio>
+    {% if forloop.last %}</ul>{% endif %}
+</li>
 {% empty %}
     <p>Brak próbek dźwiękowych tego głosu.</p>
 {% endfor %}

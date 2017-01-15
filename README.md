@@ -16,5 +16,6 @@ features information about:
 * `django-markdown-app` for a Markdown editor in management panel
 * `django-nested-admin` for nested inlines in management panel (for easier instrument edition)
 * `django-debug-toolbar` for (unsurprisingly) a debug toolbar
+* `django-url-tools` for URL manipulation
 * `Markdown` for instrument description formatting
 * `Pillow` for processing images

@@ -6,3 +6,4 @@ django-markdown-app
 django-nested-admin
 django-debug-toolbar
 django-forms-bootstrap
+django-url-tools

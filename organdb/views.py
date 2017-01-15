@@ -261,8 +261,8 @@ def stops(request):
 def search(request):
     message = None
 
-    if request.method == 'POST':
-        form = SearchForm(request.POST)
+    if request.method == 'GET' and 'pedalboard' in request.GET:
+        form = SearchForm(request.GET)
         if form.is_valid():
             instrs = Instrument.objects
 

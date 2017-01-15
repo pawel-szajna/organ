@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django_markdown',
     'debug_toolbar',
     'django_forms_bootstrap',
+    'url_tools',
 
     'organdb',
 ]
@@ -51,10 +52,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'url_tools.context_processors.current_url',
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'organ.wsgi.application'
 

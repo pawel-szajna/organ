@@ -20,15 +20,15 @@
 
 {% if instruments %}
 {% load urls %}
-<div class="table-responsive">
+<div class="table-responsive" id="results">
 <table class="table table-striped table-condensed instrument-list">
     <thead>
     <tr>
-        <th><a href="{% add_params request.get_full_path o='c' %}">Miejscowość</a></th>
-        <th><a href="{% add_params request.get_full_path o='l' %}">Instrument</a></th>
-        <th><a href="{% add_params request.get_full_path o='r' %}">Województwo</a></th>
-        <th><a href="{% add_params request.get_full_path o='s' %}">Liczba głosów</a></th>
-        <th><a href="{% add_params request.get_full_path o='k' %}">Klawiatury</a></th>
+        <th><a href="{% add_params request.get_full_path o='c' %}#results">Miejscowość</a></th>
+        <th><a href="{% add_params request.get_full_path o='l' %}#results">Instrument</a></th>
+        <th><a href="{% add_params request.get_full_path o='r' %}#results">Województwo</a></th>
+        <th><a href="{% add_params request.get_full_path o='s' %}#results">Liczba głosów</a></th>
+        <th><a href="{% add_params request.get_full_path o='k' %}#results">Klawiatury</a></th>
     </tr>
     </thead>
     <tbody>

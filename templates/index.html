@@ -47,7 +47,7 @@
           <p><a class="btn btn-default" href="{% url 'view-browse' %}" role="button">Przeglądaj instrumenty &raquo;</a></p>
         </div>
         <div class="col-md-4">
-          <h2>Najbliższe koncerty</h2>
+          <h2>Nadchodzące koncerty</h2>
           <ul class="homelist">
             {% for concert in concerts %}
                 <li><a href="{% url 'view-concert' concert.pk %}">{{ concert.name }}, {{ concert.instrument.location.city.name }}, {{ concert.date }}</a></li>

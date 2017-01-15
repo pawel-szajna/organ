@@ -111,3 +111,7 @@ a.stop.reed {
     bottom: 0;
     opacity: 1;
 }
+
+.sound-samples audio {
+    width: 120px;
+}

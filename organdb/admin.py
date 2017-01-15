@@ -28,20 +28,18 @@ class WorkInline(nested_admin.NestedStackedInline):
     extra = 0
 
 
+class RecordingInline(nested_admin.NestedStackedInline):
+    model = Recording
+    extra = 0
+
+
 @admin.register(Instrument)
 class InstrumentAdmin(nested_admin.NestedModelAdmin):
     list_display = ['region_name', 'location', 'comment', 'stops', 'keyboards', 'pedalboard']
     list_display_links = ['location', 'comment']
     list_filter = ['location__city__region', 'keyboards', 'pedalboard']
     search_fields = ['location__name', 'location__city__name', 'location__city__region__name', 'comment']
-    inlines = [PhotoInline, KeyboardInline, WorkInline]
-
-
-@admin.register(Recording)
-class RecordingAdmin(admin.ModelAdmin):
-    list_display = ['description', 'performer', 'instrument']
-    search_fields = ['description', 'performer__name', 'instrument__comment', 'instrument__location__name',
-                     'instrument__location__city__name', 'instrument__location__city__region__name']
+    inlines = [PhotoInline, KeyboardInline, WorkInline, RecordingInline]
 
 
 @admin.register(Region)

@@ -11,11 +11,12 @@ features information about:
 
 ### Dependencies
 
+* **Python 3** – the project is not and will never be compatible with Python 2
 * `Django`, obviously
 * `django-htmlmin` for minifying HTML output
 * `django-markdown-app` for a Markdown editor in management panel
 * `django-nested-admin` for nested inlines in management panel (for easier instrument edition)
 * `django-debug-toolbar` for (unsurprisingly) a debug toolbar
-* `django-url-tools` for URL manipulation
+* `django-url-tools-py3` for URL manipulation
 * `Markdown` for instrument description formatting
 * `Pillow` for processing images
